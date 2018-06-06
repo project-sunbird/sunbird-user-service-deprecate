@@ -43,22 +43,7 @@ public class UserJobProfileValidator {
     if (CollectionUtils.isNotEmpty(reqList))
       for (int i = 0; i < reqList.size(); i++) {
         reqMap = reqList.get(i);
-        if (null != reqMap.get(JsonKey.JOINING_DATE)) {
-          boolean bool =
-              ProjectUtil.isDateValidFormat(
-                  ProjectUtil.YEAR_MONTH_DATE_FORMAT, (String) reqMap.get(JsonKey.JOINING_DATE));
-          if (!bool) {
-            throwDateFormatError();
-          }
-        }
-        if (null != reqMap.get(JsonKey.END_DATE)) {
-          boolean bool =
-              ProjectUtil.isDateValidFormat(
-                  ProjectUtil.YEAR_MONTH_DATE_FORMAT, (String) reqMap.get(JsonKey.END_DATE));
-          if (!bool) {
-            throwDateFormatError();
-          }
-        }
+        validateJoiningAndJobEndDate(reqMap);
         throwMandatoryParamMissingException(
             ProjectUtil.formatMessage(
                 ResponseMessage.Message.DOT_FORMAT, JsonKey.JOB_PROFILE, JsonKey.JOB_NAME),
@@ -72,6 +57,25 @@ public class UserJobProfileValidator {
               (Map<String, Object>) reqMap.get(JsonKey.ADDRESS), JsonKey.JOB_PROFILE);
         }
       }
+  }
+
+  private static void validateJoiningAndJobEndDate(Map<String, Object> reqMap) {
+    if (null != reqMap.get(JsonKey.JOINING_DATE)) {
+      boolean bool =
+          ProjectUtil.isDateValidFormat(
+              ProjectUtil.YEAR_MONTH_DATE_FORMAT, (String) reqMap.get(JsonKey.JOINING_DATE));
+      if (!bool) {
+        throwDateFormatError();
+      }
+    }
+    if (null != reqMap.get(JsonKey.END_DATE)) {
+      boolean bool =
+          ProjectUtil.isDateValidFormat(
+              ProjectUtil.YEAR_MONTH_DATE_FORMAT, (String) reqMap.get(JsonKey.END_DATE));
+      if (!bool) {
+        throwDateFormatError();
+      }
+    }
   }
 
   private static void throwDateFormatError() {
