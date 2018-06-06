@@ -48,10 +48,7 @@ public class UserJobProfileValidator {
               ProjectUtil.isDateValidFormat(
                   ProjectUtil.YEAR_MONTH_DATE_FORMAT, (String) reqMap.get(JsonKey.JOINING_DATE));
           if (!bool) {
-            throw new ProjectCommonException(
-                ResponseCode.dateFormatError.getErrorCode(),
-                ResponseCode.dateFormatError.getErrorMessage(),
-                ERROR_CODE);
+            throwDateFormatError();
           }
         }
         if (null != reqMap.get(JsonKey.END_DATE)) {
@@ -59,10 +56,7 @@ public class UserJobProfileValidator {
               ProjectUtil.isDateValidFormat(
                   ProjectUtil.YEAR_MONTH_DATE_FORMAT, (String) reqMap.get(JsonKey.END_DATE));
           if (!bool) {
-            throw new ProjectCommonException(
-                ResponseCode.dateFormatError.getErrorCode(),
-                ResponseCode.dateFormatError.getErrorMessage(),
-                ERROR_CODE);
+            throwDateFormatError();
           }
         }
         if (StringUtils.isBlank((String) reqMap.get(JsonKey.JOB_NAME))) {
@@ -80,6 +74,13 @@ public class UserJobProfileValidator {
               (Map<String, Object>) reqMap.get(JsonKey.ADDRESS), JsonKey.JOB_PROFILE);
         }
       }
+  }
+
+  private static void throwDateFormatError() {
+    throw new ProjectCommonException(
+        ResponseCode.dateFormatError.getErrorCode(),
+        ResponseCode.dateFormatError.getErrorMessage(),
+        ERROR_CODE);
   }
 
   public static void validateUpdateUserJobProfile(Map<String, Object> userRequest) {

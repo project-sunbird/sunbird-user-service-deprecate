@@ -45,33 +45,30 @@ public class UserAddressValidator {
 
   public static void validateAddress(Map<String, Object> address, String type) {
     if (StringUtils.isBlank((String) address.get(JsonKey.ADDRESS_LINE1))) {
-      throw new ProjectCommonException(
-          ResponseCode.addressError.getErrorCode(),
+      throwMandatoryParamMissingException(
           ProjectUtil.formatMessage(
-              ResponseCode.addressError.getErrorMessage(), type, JsonKey.ADDRESS_LINE1),
-          ERROR_CODE);
+              ResponseMessage.Message.DOT_FORMAT, JsonKey.ADDRESS, JsonKey.ADDRESS_LINE1));
     }
     if (StringUtils.isBlank((String) address.get(JsonKey.CITY))) {
-      throw new ProjectCommonException(
-          ResponseCode.addressError.getErrorCode(),
+      throwMandatoryParamMissingException(
           ProjectUtil.formatMessage(
-              ResponseCode.addressError.getErrorMessage(), type, JsonKey.CITY),
-          ERROR_CODE);
+              ResponseMessage.Message.DOT_FORMAT, JsonKey.ADDRESS, JsonKey.CITY));
     }
     if (address.containsKey(JsonKey.ADD_TYPE)) {
       if (StringUtils.isBlank((String) address.get(JsonKey.ADD_TYPE))) {
-        throw new ProjectCommonException(
-            ResponseCode.addressError.getErrorCode(),
+        throwMandatoryParamMissingException(
             ProjectUtil.formatMessage(
-                ResponseCode.addressError.getErrorMessage(), type, JsonKey.TYPE),
-            ERROR_CODE);
+                ResponseMessage.Message.DOT_FORMAT, JsonKey.ADDRESS, JsonKey.ADD_TYPE));
       }
 
       if (StringUtils.isNotBlank((String) address.get(JsonKey.ADD_TYPE))
           && !checkAddressType((String) address.get(JsonKey.ADD_TYPE))) {
         throw new ProjectCommonException(
-            ResponseCode.addressTypeError.getErrorCode(),
-            ResponseCode.addressTypeError.getErrorMessage(),
+            ResponseCode.invalidParameterValue.getErrorCode(),
+            ProjectUtil.formatMessage(
+                ResponseCode.invalidParameterValue.getErrorMessage(),
+                address.get(JsonKey.ADD_TYPE),
+                JsonKey.ADD_TYPE),
             ERROR_CODE);
       }
     }

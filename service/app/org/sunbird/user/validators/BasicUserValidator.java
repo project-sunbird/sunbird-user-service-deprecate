@@ -51,24 +51,19 @@ public class BasicUserValidator {
       if (null != userRequest.get(JsonKey.PHONE_VERIFIED)) {
         if (userRequest.get(JsonKey.PHONE_VERIFIED) instanceof Boolean) {
           if (!((boolean) userRequest.get(JsonKey.PHONE_VERIFIED))) {
-            throw new ProjectCommonException(
-                ResponseCode.phoneVerifiedError.getErrorCode(),
-                ResponseCode.phoneVerifiedError.getErrorMessage(),
-                ERROR_CODE);
+            throwPhoneVerifiedException();
           }
         } else {
-          throw new ProjectCommonException(
-              ResponseCode.phoneVerifiedError.getErrorCode(),
-              ResponseCode.phoneVerifiedError.getErrorMessage(),
-              ERROR_CODE);
+          throwPhoneVerifiedException();
         }
       } else {
-        throw new ProjectCommonException(
-            ResponseCode.phoneVerifiedError.getErrorCode(),
-            ResponseCode.phoneVerifiedError.getErrorMessage(),
-            ERROR_CODE);
+        throwPhoneVerifiedException();
       }
     }
+  }
+
+  private static void throwPhoneVerifiedException() {
+    throwPhoneVerifiedException();
   }
 
   private static boolean validatePhoneNo(String phone, String countryCode) {
@@ -117,20 +112,12 @@ public class BasicUserValidator {
     if (userRequest.containsKey(JsonKey.ROLES)
         && null != userRequest.get(JsonKey.ROLES)
         && !(userRequest.get(JsonKey.ROLES) instanceof List)) {
-      throw new ProjectCommonException(
-          ResponseCode.dataTypeError.getErrorCode(),
-          ProjectUtil.formatMessage(
-              ResponseCode.dataTypeError.getErrorMessage(), JsonKey.ROLES, JsonKey.LIST),
-          ERROR_CODE);
+      throwInvalidDataTypeException(JsonKey.ROLES);
     }
     if (userRequest.containsKey(JsonKey.LANGUAGE)
         && null != userRequest.get(JsonKey.LANGUAGE)
         && !(userRequest.get(JsonKey.LANGUAGE) instanceof List)) {
-      throw new ProjectCommonException(
-          ResponseCode.dataTypeError.getErrorCode(),
-          ProjectUtil.formatMessage(
-              ResponseCode.dataTypeError.getErrorMessage(), JsonKey.LANGUAGE, JsonKey.LIST),
-          ERROR_CODE);
+      throwInvalidDataTypeException(JsonKey.LANGUAGE);
     }
 
     if (null != userRequest.get(JsonKey.DOB)) {
@@ -161,6 +148,14 @@ public class BasicUserValidator {
           ResponseCode.emailFormatError.getErrorMessage(),
           ERROR_CODE);
     }
+  }
+
+  private static void throwInvalidDataTypeException(String parameter) {
+    throw new ProjectCommonException(
+        ResponseCode.dataTypeError.getErrorCode(),
+        ProjectUtil.formatMessage(
+            ResponseCode.dataTypeError.getErrorMessage(), parameter, JsonKey.LIST),
+        ERROR_CODE);
   }
 
   private static void throwMandatoryParamMissingException(String paramName) {
