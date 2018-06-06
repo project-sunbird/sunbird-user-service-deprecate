@@ -9,6 +9,7 @@ import org.sunbird.common.models.util.JsonKey;
 import org.sunbird.common.models.util.ProjectUtil;
 import org.sunbird.common.models.util.ProjectUtil.AddressType;
 import org.sunbird.common.responsecode.ResponseCode;
+import org.sunbird.common.responsecode.ResponseMessage;
 
 public class UserAddressValidator {
 
@@ -87,10 +88,9 @@ public class UserAddressValidator {
             && null != reqMap.get(JsonKey.IS_DELETED)
             && ((boolean) reqMap.get(JsonKey.IS_DELETED))
             && StringUtils.isBlank((String) reqMap.get(JsonKey.ID))) {
-          throw new ProjectCommonException(
-              ResponseCode.idRequired.getErrorCode(),
-              ResponseCode.idRequired.getErrorMessage(),
-              ERROR_CODE);
+          throwMandatoryParamMissingException(
+              ProjectUtil.formatMessage(
+                  ResponseMessage.Message.DOT_FORMAT, JsonKey.ADDRESS, JsonKey.ID));
         }
         if (!reqMap.containsKey(JsonKey.IS_DELETED)
             || (reqMap.containsKey(JsonKey.IS_DELETED)
@@ -108,5 +108,12 @@ public class UserAddressValidator {
       }
     }
     return false;
+  }
+
+  private static void throwMandatoryParamMissingException(String paramName) {
+    throw new ProjectCommonException(
+        ResponseCode.mandatoryParamsMissing.getErrorCode(),
+        ProjectUtil.formatMessage(ResponseCode.mandatoryParamsMissing.getErrorMessage(), paramName),
+        ERROR_CODE);
   }
 }

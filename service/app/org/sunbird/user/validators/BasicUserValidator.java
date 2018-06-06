@@ -106,18 +106,12 @@ public class BasicUserValidator {
 
     if (operation.equalsIgnoreCase(JsonKey.CREATE)
         && StringUtils.isBlank((String) userRequest.get(JsonKey.USERNAME))) {
-      throw new ProjectCommonException(
-          ResponseCode.userNameRequired.getErrorCode(),
-          ResponseCode.userNameRequired.getErrorMessage(),
-          ERROR_CODE);
+      throwMandatoryParamMissingException(JsonKey.USERNAME);
     }
 
     if (operation.equalsIgnoreCase(JsonKey.CREATE)
         && StringUtils.isBlank((String) userRequest.get(JsonKey.FIRST_NAME))) {
-      throw new ProjectCommonException(
-          ResponseCode.firstNameRequired.getErrorCode(),
-          ResponseCode.firstNameRequired.getErrorMessage(),
-          ERROR_CODE);
+      throwMandatoryParamMissingException(JsonKey.FIRST_NAME);
     }
 
     if (userRequest.containsKey(JsonKey.ROLES)
@@ -167,5 +161,12 @@ public class BasicUserValidator {
           ResponseCode.emailFormatError.getErrorMessage(),
           ERROR_CODE);
     }
+  }
+
+  private static void throwMandatoryParamMissingException(String paramName) {
+    throw new ProjectCommonException(
+        ResponseCode.mandatoryParamsMissing.getErrorCode(),
+        ProjectUtil.formatMessage(ResponseCode.mandatoryParamsMissing.getErrorMessage(), paramName),
+        ERROR_CODE);
   }
 }

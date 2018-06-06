@@ -8,6 +8,7 @@ import org.sunbird.common.exception.ProjectCommonException;
 import org.sunbird.common.models.util.JsonKey;
 import org.sunbird.common.models.util.ProjectUtil;
 import org.sunbird.common.responsecode.ResponseCode;
+import org.sunbird.common.responsecode.ResponseMessage;
 
 public class UserEducationValidator {
 
@@ -36,16 +37,14 @@ public class UserEducationValidator {
         for (int i = 0; i < reqList.size(); i++) {
           reqMap = reqList.get(i);
           if (StringUtils.isBlank((String) reqMap.get(JsonKey.NAME))) {
-            throw new ProjectCommonException(
-                ResponseCode.educationNameError.getErrorCode(),
-                ResponseCode.educationNameError.getErrorMessage(),
-                ERROR_CODE);
+            throwMandatoryParamMissingException(
+                ProjectUtil.formatMessage(
+                    ResponseMessage.Message.DOT_FORMAT, JsonKey.EDUCATION, JsonKey.NAME));
           }
           if (StringUtils.isBlank((String) reqMap.get(JsonKey.DEGREE))) {
-            throw new ProjectCommonException(
-                ResponseCode.educationDegreeError.getErrorCode(),
-                ResponseCode.educationDegreeError.getErrorMessage(),
-                ERROR_CODE);
+            throwMandatoryParamMissingException(
+                ProjectUtil.formatMessage(
+                    ResponseMessage.Message.DOT_FORMAT, JsonKey.EDUCATION, JsonKey.DEGREE));
           }
           if (reqMap.containsKey(JsonKey.ADDRESS) && null != reqMap.get(JsonKey.ADDRESS)) {
             UserAddressValidator.validateAddress(
@@ -54,6 +53,13 @@ public class UserEducationValidator {
         }
       }
     }
+  }
+
+  private static void throwMandatoryParamMissingException(String paramName) {
+    throw new ProjectCommonException(
+        ResponseCode.mandatoryParamsMissing.getErrorCode(),
+        ProjectUtil.formatMessage(ResponseCode.mandatoryParamsMissing.getErrorMessage(), paramName),
+        ERROR_CODE);
   }
 
   public static void validateUpdateUserEducation(Map<String, Object> userRequest) {
@@ -66,10 +72,9 @@ public class UserEducationValidator {
             && null != reqMap.get(JsonKey.IS_DELETED)
             && ((boolean) reqMap.get(JsonKey.IS_DELETED))
             && StringUtils.isBlank((String) reqMap.get(JsonKey.ID))) {
-          throw new ProjectCommonException(
-              ResponseCode.idRequired.getErrorCode(),
-              ResponseCode.idRequired.getErrorMessage(),
-              ERROR_CODE);
+          throwMandatoryParamMissingException(
+              ProjectUtil.formatMessage(
+                  ResponseMessage.Message.DOT_FORMAT, JsonKey.EDUCATION, JsonKey.ID));
         }
         if (!reqMap.containsKey(JsonKey.IS_DELETED)
             || (reqMap.containsKey(JsonKey.IS_DELETED)

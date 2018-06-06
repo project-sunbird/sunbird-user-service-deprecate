@@ -8,6 +8,7 @@ import org.sunbird.common.exception.ProjectCommonException;
 import org.sunbird.common.models.util.JsonKey;
 import org.sunbird.common.models.util.ProjectUtil;
 import org.sunbird.common.responsecode.ResponseCode;
+import org.sunbird.common.responsecode.ResponseMessage;
 
 public class UserJobProfileValidator {
 
@@ -39,47 +40,46 @@ public class UserJobProfileValidator {
     Map<String, Object> reqMap = null;
     List<Map<String, Object>> reqList =
         (List<Map<String, Object>>) userRequest.get(JsonKey.JOB_PROFILE);
-    for (int i = 0; i < reqList.size(); i++) {
-      reqMap = reqList.get(i);
-      if (null != reqMap.get(JsonKey.JOINING_DATE)) {
-        boolean bool =
-            ProjectUtil.isDateValidFormat(
-                ProjectUtil.YEAR_MONTH_DATE_FORMAT, (String) reqMap.get(JsonKey.JOINING_DATE));
-        if (!bool) {
-          throw new ProjectCommonException(
-              ResponseCode.dateFormatError.getErrorCode(),
-              ResponseCode.dateFormatError.getErrorMessage(),
-              ERROR_CODE);
+    if (CollectionUtils.isNotEmpty(reqList))
+      for (int i = 0; i < reqList.size(); i++) {
+        reqMap = reqList.get(i);
+        if (null != reqMap.get(JsonKey.JOINING_DATE)) {
+          boolean bool =
+              ProjectUtil.isDateValidFormat(
+                  ProjectUtil.YEAR_MONTH_DATE_FORMAT, (String) reqMap.get(JsonKey.JOINING_DATE));
+          if (!bool) {
+            throw new ProjectCommonException(
+                ResponseCode.dateFormatError.getErrorCode(),
+                ResponseCode.dateFormatError.getErrorMessage(),
+                ERROR_CODE);
+          }
+        }
+        if (null != reqMap.get(JsonKey.END_DATE)) {
+          boolean bool =
+              ProjectUtil.isDateValidFormat(
+                  ProjectUtil.YEAR_MONTH_DATE_FORMAT, (String) reqMap.get(JsonKey.END_DATE));
+          if (!bool) {
+            throw new ProjectCommonException(
+                ResponseCode.dateFormatError.getErrorCode(),
+                ResponseCode.dateFormatError.getErrorMessage(),
+                ERROR_CODE);
+          }
+        }
+        if (StringUtils.isBlank((String) reqMap.get(JsonKey.JOB_NAME))) {
+          throwMandatoryParamMissingException(
+              ProjectUtil.formatMessage(
+                  ResponseMessage.Message.DOT_FORMAT, JsonKey.JOB_PROFILE, JsonKey.JOB_NAME));
+        }
+        if (StringUtils.isBlank((String) reqMap.get(JsonKey.ORG_NAME))) {
+          throwMandatoryParamMissingException(
+              ProjectUtil.formatMessage(
+                  ResponseMessage.Message.DOT_FORMAT, JsonKey.JOB_PROFILE, JsonKey.ORG_NAME));
+        }
+        if (reqMap.containsKey(JsonKey.ADDRESS) && null != reqMap.get(JsonKey.ADDRESS)) {
+          UserAddressValidator.validateAddress(
+              (Map<String, Object>) reqMap.get(JsonKey.ADDRESS), JsonKey.JOB_PROFILE);
         }
       }
-      if (null != reqMap.get(JsonKey.END_DATE)) {
-        boolean bool =
-            ProjectUtil.isDateValidFormat(
-                ProjectUtil.YEAR_MONTH_DATE_FORMAT, (String) reqMap.get(JsonKey.END_DATE));
-        if (!bool) {
-          throw new ProjectCommonException(
-              ResponseCode.dateFormatError.getErrorCode(),
-              ResponseCode.dateFormatError.getErrorMessage(),
-              ERROR_CODE);
-        }
-      }
-      if (StringUtils.isBlank((String) reqMap.get(JsonKey.JOB_NAME))) {
-        throw new ProjectCommonException(
-            ResponseCode.jobNameError.getErrorCode(),
-            ResponseCode.jobNameError.getErrorMessage(),
-            ERROR_CODE);
-      }
-      if (StringUtils.isBlank((String) reqMap.get(JsonKey.ORG_NAME))) {
-        throw new ProjectCommonException(
-            ResponseCode.organisationNameError.getErrorCode(),
-            ResponseCode.organisationNameError.getErrorMessage(),
-            ERROR_CODE);
-      }
-      if (reqMap.containsKey(JsonKey.ADDRESS) && null != reqMap.get(JsonKey.ADDRESS)) {
-        UserAddressValidator.validateAddress(
-            (Map<String, Object>) reqMap.get(JsonKey.ADDRESS), JsonKey.JOB_PROFILE);
-      }
-    }
   }
 
   public static void validateUpdateUserJobProfile(Map<String, Object> userRequest) {
@@ -92,10 +92,9 @@ public class UserJobProfileValidator {
             && null != reqMap.get(JsonKey.IS_DELETED)
             && ((boolean) reqMap.get(JsonKey.IS_DELETED))
             && StringUtils.isBlank((String) reqMap.get(JsonKey.ID))) {
-          throw new ProjectCommonException(
-              ResponseCode.idRequired.getErrorCode(),
-              ResponseCode.idRequired.getErrorMessage(),
-              ERROR_CODE);
+          throwMandatoryParamMissingException(
+              ProjectUtil.formatMessage(
+                  ResponseMessage.Message.DOT_FORMAT, JsonKey.JOB_PROFILE, JsonKey.ID));
         }
         if (!reqMap.containsKey(JsonKey.IS_DELETED)
             || (reqMap.containsKey(JsonKey.IS_DELETED)
@@ -104,5 +103,12 @@ public class UserJobProfileValidator {
           jobProfileValidation(userRequest);
         }
       }
+  }
+
+  private static void throwMandatoryParamMissingException(String paramName) {
+    throw new ProjectCommonException(
+        ResponseCode.mandatoryParamsMissing.getErrorCode(),
+        ProjectUtil.formatMessage(ResponseCode.mandatoryParamsMissing.getErrorMessage(), paramName),
+        ERROR_CODE);
   }
 }

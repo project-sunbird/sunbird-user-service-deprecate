@@ -58,7 +58,7 @@ public class UserExternalIdentityValidator {
               // other than add or null for create user api
               if (JsonKey.CREATE.equalsIgnoreCase(operation)
                   && StringUtils.isNotBlank(s.get(JsonKey.OPERATION))
-                  && (!"add".equalsIgnoreCase(((s.get(JsonKey.OPERATION)))))) {
+                  && (!"add".equalsIgnoreCase(s.get(JsonKey.OPERATION)))) {
                 throw new ProjectCommonException(
                     ResponseCode.invalidValue.getErrorCode(),
                     ProjectUtil.formatMessage(

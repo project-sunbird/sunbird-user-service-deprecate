@@ -44,7 +44,8 @@ public class UserRequestValidator {
    * @param userRequest update user request.
    */
   public static void validateUpdateUser(Map<String, Object> userRequest) {
-    List<String> notAllowedFields = Arrays.asList(JsonKey.REGISTERED_ORG_ID, JsonKey.ROOT_ORG_ID);
+    List<String> notAllowedFields =
+        Arrays.asList(JsonKey.REGISTERED_ORG_ID, JsonKey.ROOT_ORG_ID, JsonKey.CHANNEL);
     BasicUserValidator.fieldsNotAllowed(notAllowedFields, userRequest);
     UserExternalIdentityValidator.externalIdsValidation(userRequest, JsonKey.UPDATE);
     BasicUserValidator.phoneValidation(userRequest);
