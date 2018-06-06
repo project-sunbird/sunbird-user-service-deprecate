@@ -59,16 +59,14 @@ public class UserJobProfileValidator {
             throwDateFormatError();
           }
         }
-        if (StringUtils.isBlank((String) reqMap.get(JsonKey.JOB_NAME))) {
-          throwMandatoryParamMissingException(
-              ProjectUtil.formatMessage(
-                  ResponseMessage.Message.DOT_FORMAT, JsonKey.JOB_PROFILE, JsonKey.JOB_NAME));
-        }
-        if (StringUtils.isBlank((String) reqMap.get(JsonKey.ORG_NAME))) {
-          throwMandatoryParamMissingException(
-              ProjectUtil.formatMessage(
-                  ResponseMessage.Message.DOT_FORMAT, JsonKey.JOB_PROFILE, JsonKey.ORG_NAME));
-        }
+        throwMandatoryParamMissingException(
+            ProjectUtil.formatMessage(
+                ResponseMessage.Message.DOT_FORMAT, JsonKey.JOB_PROFILE, JsonKey.JOB_NAME),
+            (String) reqMap.get(JsonKey.JOB_NAME));
+        throwMandatoryParamMissingException(
+            ProjectUtil.formatMessage(
+                ResponseMessage.Message.DOT_FORMAT, JsonKey.JOB_PROFILE, JsonKey.ORG_NAME),
+            (String) reqMap.get(JsonKey.ORG_NAME));
         if (reqMap.containsKey(JsonKey.ADDRESS) && null != reqMap.get(JsonKey.ADDRESS)) {
           UserAddressValidator.validateAddress(
               (Map<String, Object>) reqMap.get(JsonKey.ADDRESS), JsonKey.JOB_PROFILE);
@@ -91,11 +89,11 @@ public class UserJobProfileValidator {
         Map<String, Object> reqMap = reqList.get(i);
         if (reqMap.containsKey(JsonKey.IS_DELETED)
             && null != reqMap.get(JsonKey.IS_DELETED)
-            && ((boolean) reqMap.get(JsonKey.IS_DELETED))
-            && StringUtils.isBlank((String) reqMap.get(JsonKey.ID))) {
+            && ((boolean) reqMap.get(JsonKey.IS_DELETED))) {
           throwMandatoryParamMissingException(
               ProjectUtil.formatMessage(
-                  ResponseMessage.Message.DOT_FORMAT, JsonKey.JOB_PROFILE, JsonKey.ID));
+                  ResponseMessage.Message.DOT_FORMAT, JsonKey.JOB_PROFILE, JsonKey.ID),
+              (String) reqMap.get(JsonKey.ID));
         }
         if (!reqMap.containsKey(JsonKey.IS_DELETED)
             || (reqMap.containsKey(JsonKey.IS_DELETED)
@@ -106,10 +104,12 @@ public class UserJobProfileValidator {
       }
   }
 
-  private static void throwMandatoryParamMissingException(String paramName) {
-    throw new ProjectCommonException(
-        ResponseCode.mandatoryParamsMissing.getErrorCode(),
-        ProjectUtil.formatMessage(ResponseCode.mandatoryParamsMissing.getErrorMessage(), paramName),
-        ERROR_CODE);
+  private static void throwMandatoryParamMissingException(String paramName, String paramValue) {
+    if (StringUtils.isBlank(paramValue))
+      throw new ProjectCommonException(
+          ResponseCode.mandatoryParamsMissing.getErrorCode(),
+          ProjectUtil.formatMessage(
+              ResponseCode.mandatoryParamsMissing.getErrorMessage(), paramName),
+          ERROR_CODE);
   }
 }

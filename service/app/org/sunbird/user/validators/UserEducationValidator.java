@@ -36,16 +36,14 @@ public class UserEducationValidator {
             (List<Map<String, Object>>) userRequest.get(JsonKey.EDUCATION);
         for (int i = 0; i < reqList.size(); i++) {
           reqMap = reqList.get(i);
-          if (StringUtils.isBlank((String) reqMap.get(JsonKey.NAME))) {
-            throwMandatoryParamMissingException(
-                ProjectUtil.formatMessage(
-                    ResponseMessage.Message.DOT_FORMAT, JsonKey.EDUCATION, JsonKey.NAME));
-          }
-          if (StringUtils.isBlank((String) reqMap.get(JsonKey.DEGREE))) {
-            throwMandatoryParamMissingException(
-                ProjectUtil.formatMessage(
-                    ResponseMessage.Message.DOT_FORMAT, JsonKey.EDUCATION, JsonKey.DEGREE));
-          }
+          throwMandatoryParamMissingException(
+              ProjectUtil.formatMessage(
+                  ResponseMessage.Message.DOT_FORMAT, JsonKey.EDUCATION, JsonKey.NAME),
+              (String) reqMap.get(JsonKey.NAME));
+          throwMandatoryParamMissingException(
+              ProjectUtil.formatMessage(
+                  ResponseMessage.Message.DOT_FORMAT, JsonKey.EDUCATION, JsonKey.DEGREE),
+              (String) reqMap.get(JsonKey.DEGREE));
           if (reqMap.containsKey(JsonKey.ADDRESS) && null != reqMap.get(JsonKey.ADDRESS)) {
             UserAddressValidator.validateAddress(
                 (Map<String, Object>) reqMap.get(JsonKey.ADDRESS), JsonKey.EDUCATION);
@@ -55,11 +53,13 @@ public class UserEducationValidator {
     }
   }
 
-  private static void throwMandatoryParamMissingException(String paramName) {
-    throw new ProjectCommonException(
-        ResponseCode.mandatoryParamsMissing.getErrorCode(),
-        ProjectUtil.formatMessage(ResponseCode.mandatoryParamsMissing.getErrorMessage(), paramName),
-        ERROR_CODE);
+  private static void throwMandatoryParamMissingException(String paramName, String paramValue) {
+    if (StringUtils.isBlank(paramValue))
+      throw new ProjectCommonException(
+          ResponseCode.mandatoryParamsMissing.getErrorCode(),
+          ProjectUtil.formatMessage(
+              ResponseCode.mandatoryParamsMissing.getErrorMessage(), paramName),
+          ERROR_CODE);
   }
 
   public static void validateUpdateUserEducation(Map<String, Object> userRequest) {
@@ -70,11 +70,12 @@ public class UserEducationValidator {
         Map<String, Object> reqMap = reqList.get(i);
         if (reqMap.containsKey(JsonKey.IS_DELETED)
             && null != reqMap.get(JsonKey.IS_DELETED)
-            && ((boolean) reqMap.get(JsonKey.IS_DELETED))
-            && StringUtils.isBlank((String) reqMap.get(JsonKey.ID))) {
+            && ((boolean) reqMap.get(JsonKey.IS_DELETED))) {
+
           throwMandatoryParamMissingException(
               ProjectUtil.formatMessage(
-                  ResponseMessage.Message.DOT_FORMAT, JsonKey.EDUCATION, JsonKey.ID));
+                  ResponseMessage.Message.DOT_FORMAT, JsonKey.EDUCATION, JsonKey.ID),
+              (String) reqMap.get(JsonKey.ID));
         }
         if (!reqMap.containsKey(JsonKey.IS_DELETED)
             || (reqMap.containsKey(JsonKey.IS_DELETED)

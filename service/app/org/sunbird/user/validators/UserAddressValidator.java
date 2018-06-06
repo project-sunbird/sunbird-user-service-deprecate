@@ -37,41 +37,35 @@ public class UserAddressValidator {
             (List<Map<String, Object>>) userRequest.get(JsonKey.ADDRESS);
         for (int i = 0; i < reqList.size(); i++) {
           addrReqMap = reqList.get(i);
-          validateAddress(addrReqMap, JsonKey.ADDRESS);
+          validateAddress(addrReqMap, JsonKey.USER);
         }
       }
     }
   }
 
   public static void validateAddress(Map<String, Object> address, String type) {
-    if (StringUtils.isBlank((String) address.get(JsonKey.ADDRESS_LINE1))) {
-      throwMandatoryParamMissingException(
-          ProjectUtil.formatMessage(
-              ResponseMessage.Message.DOT_FORMAT, JsonKey.ADDRESS, JsonKey.ADDRESS_LINE1));
-    }
-    if (StringUtils.isBlank((String) address.get(JsonKey.CITY))) {
-      throwMandatoryParamMissingException(
-          ProjectUtil.formatMessage(
-              ResponseMessage.Message.DOT_FORMAT, JsonKey.ADDRESS, JsonKey.CITY));
-    }
-    if (address.containsKey(JsonKey.ADD_TYPE)) {
-      if (StringUtils.isBlank((String) address.get(JsonKey.ADD_TYPE))) {
-        throwMandatoryParamMissingException(
-            ProjectUtil.formatMessage(
-                ResponseMessage.Message.DOT_FORMAT, JsonKey.ADDRESS, JsonKey.ADD_TYPE));
-      }
+    throwAddressException(JsonKey.ADDRESS_LINE1, (String) address.get(JsonKey.ADDRESS_LINE1), type);
+    throwAddressException(JsonKey.CITY, (String) address.get(JsonKey.CITY), type);
 
-      if (StringUtils.isNotBlank((String) address.get(JsonKey.ADD_TYPE))
+    if (address.containsKey(JsonKey.ADD_TYPE) && type.equals(JsonKey.USER)) {
+      throwAddressException(JsonKey.ADD_TYPE, (String) address.get(JsonKey.ADD_TYPE), type);
+
+      if (!StringUtils.isBlank((String) address.get(JsonKey.ADD_TYPE))
           && !checkAddressType((String) address.get(JsonKey.ADD_TYPE))) {
         throw new ProjectCommonException(
-            ResponseCode.invalidParameterValue.getErrorCode(),
-            ProjectUtil.formatMessage(
-                ResponseCode.invalidParameterValue.getErrorMessage(),
-                address.get(JsonKey.ADD_TYPE),
-                JsonKey.ADD_TYPE),
+            ResponseCode.addressTypeError.getErrorCode(),
+            ResponseCode.addressTypeError.getErrorMessage(),
             ERROR_CODE);
       }
     }
+  }
+
+  private static void throwAddressException(String paramName, String paramValue, String type) {
+    if (StringUtils.isEmpty(paramValue))
+      throw new ProjectCommonException(
+          ResponseCode.addressError.getErrorCode(),
+          ProjectUtil.formatMessage(ResponseCode.addressError.getErrorMessage(), type, paramName),
+          ERROR_CODE);
   }
 
   public static void validateUpdateUserAddress(Map<String, Object> userRequest) {
@@ -83,17 +77,17 @@ public class UserAddressValidator {
 
         if (reqMap.containsKey(JsonKey.IS_DELETED)
             && null != reqMap.get(JsonKey.IS_DELETED)
-            && ((boolean) reqMap.get(JsonKey.IS_DELETED))
-            && StringUtils.isBlank((String) reqMap.get(JsonKey.ID))) {
+            && ((boolean) reqMap.get(JsonKey.IS_DELETED))) {
           throwMandatoryParamMissingException(
               ProjectUtil.formatMessage(
-                  ResponseMessage.Message.DOT_FORMAT, JsonKey.ADDRESS, JsonKey.ID));
+                  ResponseMessage.Message.DOT_FORMAT, JsonKey.ADDRESS, JsonKey.ID),
+              (String) reqMap.get(JsonKey.ID));
         }
         if (!reqMap.containsKey(JsonKey.IS_DELETED)
             || (reqMap.containsKey(JsonKey.IS_DELETED)
                 && (null == reqMap.get(JsonKey.IS_DELETED)
                     || !(boolean) reqMap.get(JsonKey.IS_DELETED)))) {
-          validateAddress(reqMap, JsonKey.ADDRESS);
+          validateAddress(reqMap, JsonKey.USER);
         }
       }
   }
@@ -107,7 +101,7 @@ public class UserAddressValidator {
     return false;
   }
 
-  private static void throwMandatoryParamMissingException(String paramName) {
+  private static void throwMandatoryParamMissingException(String paramName, String paramValue) {
     throw new ProjectCommonException(
         ResponseCode.mandatoryParamsMissing.getErrorCode(),
         ProjectUtil.formatMessage(ResponseCode.mandatoryParamsMissing.getErrorMessage(), paramName),

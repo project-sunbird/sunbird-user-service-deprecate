@@ -102,15 +102,11 @@ public class BasicUserValidator {
    */
   public static void userBasicValidation(Map<String, Object> userRequest, String operation) {
 
-    if (operation.equalsIgnoreCase(JsonKey.CREATE)
-        && StringUtils.isBlank((String) userRequest.get(JsonKey.USERNAME))) {
-      throwMandatoryParamMissingException(JsonKey.USERNAME);
-    }
+    throwMandatoryParamMissingException(
+        JsonKey.USERNAME, (String) userRequest.get(JsonKey.USERNAME), JsonKey.CREATE);
 
-    if (operation.equalsIgnoreCase(JsonKey.CREATE)
-        && StringUtils.isBlank((String) userRequest.get(JsonKey.FIRST_NAME))) {
-      throwMandatoryParamMissingException(JsonKey.FIRST_NAME);
-    }
+    throwMandatoryParamMissingException(
+        JsonKey.FIRST_NAME, (String) userRequest.get(JsonKey.FIRST_NAME), JsonKey.CREATE);
 
     if (userRequest.containsKey(JsonKey.ROLES)
         && null != userRequest.get(JsonKey.ROLES)
@@ -165,10 +161,14 @@ public class BasicUserValidator {
         ERROR_CODE);
   }
 
-  private static void throwMandatoryParamMissingException(String paramName) {
-    throw new ProjectCommonException(
-        ResponseCode.mandatoryParamsMissing.getErrorCode(),
-        ProjectUtil.formatMessage(ResponseCode.mandatoryParamsMissing.getErrorMessage(), paramName),
-        ERROR_CODE);
+  private static void throwMandatoryParamMissingException(
+      String paramName, String paramValue, String operation) {
+    if (operation.equalsIgnoreCase(JsonKey.CREATE) && StringUtils.isBlank(paramValue)) {
+      throw new ProjectCommonException(
+          ResponseCode.mandatoryParamsMissing.getErrorCode(),
+          ProjectUtil.formatMessage(
+              ResponseCode.mandatoryParamsMissing.getErrorMessage(), paramName),
+          ERROR_CODE);
+    }
   }
 }
