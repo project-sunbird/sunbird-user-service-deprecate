@@ -62,4 +62,22 @@ public class UserUtil {
           ResponseCode.CLIENT_ERROR.getResponseCode());
     }
   }
+
+  public enum UserDaoType {
+    USER("user"),
+    EDUCATION("education"),
+    JOB_PROFILE("jobProfile"),
+    USER_EXTERNAL_IDENTITY("userExternalIdentity"),
+    USER_ORG("userOrg");
+
+    private String value;
+
+    UserDaoType(String value) {
+      this.value = value;
+    }
+
+    public String getValue() {
+      return this.value;
+    }
+  }
 }

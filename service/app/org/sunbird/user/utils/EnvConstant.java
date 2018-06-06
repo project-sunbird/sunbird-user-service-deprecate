@@ -7,11 +7,7 @@ package org.sunbird.user.utils;
  */
 public class EnvConstant {
 
-  public static final String SUNBIRD_TELEMETRY_DISPATCH = "sunbird_telemetry_dispatchers";
-  public static final String SUNBIRD_TELEMETRY_KAFKA_TOPIC = "sunbird_telemetry_kafka_topic";
-  /** This will have on and off value. */
-  public static final String EKSTEP_TELEMETRY_STORAGE_TOGGLE = "ekstep_telemetry_storage_toggle";
+  private EnvConstant() {}
 
-  public static final String SUNBIRD_TELEMETRY_KAFKA_SERVICE_CONFIG =
-      "sunbird_telemetry_kafka_servers_config";
+  public static final String SUNBIRD_DEFAULT_CHANNEL = "sunbird_default_channel";
 }

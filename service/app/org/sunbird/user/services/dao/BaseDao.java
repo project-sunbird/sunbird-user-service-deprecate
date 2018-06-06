@@ -24,11 +24,10 @@ public interface BaseDao {
    * @param keySpace KeySpace name.
    * @param tableName Table name.
    * @param request Map of requested key and their value to insert into DB.
-   * @return Response
    */
-  default Response create(String keySpace, String tableName, Map<String, Object> request) {
+  default void create(String keySpace, String tableName, Map<String, Object> request) {
 
-    return cassandraOperation.insertRecord(keySpace, tableName, request);
+    cassandraOperation.insertRecord(keySpace, tableName, request);
   }
 
   /**
@@ -37,11 +36,10 @@ public interface BaseDao {
    * @param keySpace KeySpace name.
    * @param tableName Table name.
    * @param request Map of requested key and their value to update into DB.
-   * @return Response
    */
-  default Response update(String keySpace, String tableName, Map<String, Object> request) {
+  default void update(String keySpace, String tableName, Map<String, Object> request) {
 
-    return cassandraOperation.updateRecord(keySpace, tableName, request);
+    cassandraOperation.updateRecord(keySpace, tableName, request);
   }
 
   /**
@@ -50,11 +48,10 @@ public interface BaseDao {
    * @param keySpace KeySpace name.
    * @param tableName Table name.
    * @param identifier Identifier of the record to delete.
-   * @return Response
    */
-  default Response delete(String keySpace, String tableName, String identifier) {
+  default void delete(String keySpace, String tableName, String identifier) {
 
-    return cassandraOperation.deleteRecord(keySpace, tableName, identifier);
+    cassandraOperation.deleteRecord(keySpace, tableName, identifier);
   }
 
   /**

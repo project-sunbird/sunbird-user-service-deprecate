@@ -1,6 +1,5 @@
 package org.sunbird.user.services.dao;
 
-import org.sunbird.common.models.response.Response;
 import org.sunbird.user.models.User;
 
 /**
@@ -13,16 +12,14 @@ public interface UserDao extends BaseDao {
   /**
    * This method will insert an user entry to DB.
    *
-   * @param user User Object.
-   * @return Response
+   * @param user User details.
    */
-  Response create(User user);
+  void create(User user);
 
   /**
    * This method will update an user entry to DB.
    *
-   * @param user User Object.
-   * @return Response
+   * @param user User details.
    */
-  Response update(User user);
+  void update(User user);
 }

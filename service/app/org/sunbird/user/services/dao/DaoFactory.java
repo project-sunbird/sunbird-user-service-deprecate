@@ -13,24 +13,30 @@ import org.sunbird.user.services.dao.impl.UserOrgDaoImpl;
  */
 public class DaoFactory {
 
+  private static final String USER = "user";
+  private static final String EDUCATION = "education";
+  private static final String JOB_PROFILE = "jobProfile";
+  private static final String USER_EXTERNAL_IDENTITY = "userExternalIdentity";
+  private static final String USER_ORG = "userOrg";
+
   private DaoFactory() {}
 
   public static BaseDao getDao(String type) {
 
     switch (type) {
-      case "user":
+      case USER:
         return new UserDaoImpl();
 
-      case "eduaction":
+      case EDUCATION:
         return new EducationDaoImpl();
 
-      case "jobProfile":
+      case JOB_PROFILE:
         return new JobProfileDaoImpl();
 
-      case "userExternalIdentity":
+      case USER_EXTERNAL_IDENTITY:
         return new UserExternalIdentityDaoImpl();
 
-      case "userOrg":
+      case USER_ORG:
         return new UserOrgDaoImpl();
 
       default:

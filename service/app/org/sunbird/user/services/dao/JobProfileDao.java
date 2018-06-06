@@ -1,6 +1,5 @@
 package org.sunbird.user.services.dao;
 
-import org.sunbird.common.models.response.Response;
 import org.sunbird.user.models.JobProfile;
 
 /**
@@ -11,23 +10,21 @@ import org.sunbird.user.models.JobProfile;
 public interface JobProfileDao extends BaseDao {
 
   /**
-   * This method will insert an jobProfile entry to DB.
+   * This method will insert an jobProfile entry for given user to DB.
    *
-   * @param jobProfile JobProfile Object.
-   * @return Response
+   * @param jobProfile JobProfile details of given user.
    */
-  Response create(JobProfile jobProfile);
+  void create(JobProfile jobProfile);
 
   /**
-   * This method will update an jobProfile entry to DB.
+   * This method will update an jobProfile entry for given user to DB.
    *
-   * @param jobProfile JobProfile Object.
-   * @return Response
+   * @param jobProfile JobProfile details of given user.
    */
-  Response update(JobProfile jobProfile);
+  void update(JobProfile jobProfile);
 
   /**
-   * This method will delete the existing jobProfile entry from DB.
+   * This method will delete the existing jobProfile entry for given user from DB.
    *
    * @param jobProfileId JobProfileId Id.
    */

@@ -1,6 +1,5 @@
 package org.sunbird.user.services.dao;
 
-import org.sunbird.common.models.response.Response;
 import org.sunbird.user.models.UserOrg;
 
 /**
@@ -11,23 +10,21 @@ import org.sunbird.user.models.UserOrg;
 public interface UserOrgDao extends BaseDao {
 
   /**
-   * This method will insert an user org entry to DB.
+   * This method will insert an org entry for given user to DB.
    *
-   * @param userOrg UserOrg Object.
-   * @return Response
+   * @param userOrg UserOrg details of given user.
    */
-  Response create(UserOrg userOrg);
+  void create(UserOrg userOrg);
 
   /**
-   * This method will update an user org entry to DB.
+   * This method will update an org entry for given user to DB.
    *
-   * @param userOrg UserOrg Object.
-   * @return Response
+   * @param userOrg UserOrg details of given user.
    */
-  Response update(UserOrg userOrg);
+  void update(UserOrg userOrg);
 
   /**
-   * This method will delete the existing user org entry from DB.
+   * This method will delete the existing org entry for given user from DB.
    *
    * @param userOrgId User Org Id.
    */

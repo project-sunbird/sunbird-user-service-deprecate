@@ -1,6 +1,5 @@
 package org.sunbird.user.services.dao;
 
-import org.sunbird.common.models.response.Response;
 import org.sunbird.user.models.Education;
 
 /**
@@ -11,23 +10,21 @@ import org.sunbird.user.models.Education;
 public interface EducationDao extends BaseDao {
 
   /**
-   * This method will insert an education entry to DB.
+   * This method will insert an education entry for given user to DB.
    *
-   * @param education Education Object.
-   * @return Response
+   * @param education Education details of given user.
    */
-  Response create(Education education);
+  void create(Education education);
 
   /**
-   * This method will update the existing education entry to DB.
+   * This method will update the existing education entry for given user to DB.
    *
-   * @param education Education Object.
-   * @return Response
+   * @param education Education details of given user.
    */
-  Response update(Education education);
+  void update(Education education);
 
   /**
-   * This method will delete the existing education entry from DB.
+   * This method will delete the existing education entry for given user from DB.
    *
    * @param educationId Education Id.
    */

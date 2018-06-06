@@ -1,6 +1,5 @@
 package org.sunbird.user.services.dao;
 
-import org.sunbird.common.models.response.Response;
 import org.sunbird.user.models.UserExternalIdentity;
 
 /**
@@ -11,23 +10,21 @@ import org.sunbird.user.models.UserExternalIdentity;
 public interface UserExternalIdentityDao extends BaseDao {
 
   /**
-   * This method will insert an user external identity entry to DB.
+   * This method will insert an external identity entry for given user to DB.
    *
-   * @param userExtId UserExternalIdentity Object.
-   * @return Response
+   * @param userExtId UserExternalIdentity details of given user.
    */
-  Response create(UserExternalIdentity userExtId);
+  void create(UserExternalIdentity userExtId);
 
   /**
-   * This method will update an user external identity entry to DB.
+   * This method will update an external identity entry for given user to DB.
    *
-   * @param userExtId UserExternalIdentity Object.
-   * @return Response
+   * @param userExtId UserExternalIdentity details of given user.
    */
-  Response update(UserExternalIdentity userExtId);
+  void update(UserExternalIdentity userExtId);
 
   /**
-   * This method will delete the existing user external identity entry from DB.
+   * This method will delete the existing external identity entry for given user from DB.
    *
    * @param userExtId UserExternalIdentity Identifier.
    */
