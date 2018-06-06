@@ -63,7 +63,10 @@ public class BasicUserValidator {
   }
 
   private static void throwPhoneVerifiedException() {
-    throwPhoneVerifiedException();
+    throw new ProjectCommonException(
+        ResponseCode.phoneVerifiedError.getErrorCode(),
+        ResponseCode.phoneVerifiedError.getErrorMessage(),
+        ERROR_CODE);
   }
 
   private static boolean validatePhoneNo(String phone, String countryCode) {
