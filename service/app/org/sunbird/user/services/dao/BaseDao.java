@@ -49,9 +49,22 @@ public interface BaseDao {
    * @param tableName Table name.
    * @param identifier Identifier of the record to delete.
    */
-  default void delete(String keySpace, String tableName, String identifier) {
+  default void deleteById(String keySpace, String tableName, String identifier) {
 
     cassandraOperation.deleteRecord(keySpace, tableName, identifier);
+  }
+
+  /**
+   * default implementation for deleteRecord by composite key of CassandraOperation.
+   *
+   * @param keySpace KeySpace name.
+   * @param tableName Table name.
+   * @param compositeKeyMap Map of the composite key and its value.
+   */
+  default void deleteByCompositeKey(
+      String keySpace, String tableName, Map<String, String> compositeKeyMap) {
+
+    cassandraOperation.deleteRecord(keySpace, tableName, compositeKeyMap);
   }
 
   /**

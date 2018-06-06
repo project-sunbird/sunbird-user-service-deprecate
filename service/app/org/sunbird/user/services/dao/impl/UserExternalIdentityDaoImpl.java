@@ -1,6 +1,8 @@
 package org.sunbird.user.services.dao.impl;
 
+import java.util.HashMap;
 import java.util.Map;
+import org.sunbird.common.models.util.JsonKey;
 import org.sunbird.user.models.UserExternalIdentity;
 import org.sunbird.user.services.dao.UserExternalIdentityDao;
 
@@ -22,8 +24,11 @@ public class UserExternalIdentityDaoImpl implements UserExternalIdentityDao {
   }
 
   @Override
-  public void delete(String userExtId) {
-
-    delete(KEY_SPACE, TABLE_NAME, userExtId);
+  public void delete(UserExternalIdentity userExtId) {
+    Map<String, String> compositeKeyMap = new HashMap<>();
+    compositeKeyMap.put(JsonKey.PROVIDER, userExtId.getProvider());
+    compositeKeyMap.put(JsonKey.ID_TYPE, userExtId.getIdType());
+    compositeKeyMap.put(JsonKey.USER_ID, userExtId.getUserId());
+    deleteByCompositeKey(KEY_SPACE, TABLE_NAME, compositeKeyMap);
   }
 }

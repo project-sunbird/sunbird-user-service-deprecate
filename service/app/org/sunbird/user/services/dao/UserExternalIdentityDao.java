@@ -26,7 +26,7 @@ public interface UserExternalIdentityDao extends BaseDao {
   /**
    * This method will delete the existing external identity entry for given user from DB.
    *
-   * @param userExtId UserExternalIdentity Identifier.
+   * @param userExtId UserExternalIdentity details of given user.
    */
-  void delete(String userExtId);
+  void delete(UserExternalIdentity userExtId);
 }
