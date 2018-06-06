@@ -25,7 +25,7 @@ public class UserRequestValidator {
   /**
    * This method will validate create user data.
    *
-   * @param userRequest Complete create user request.
+   * @param userRequest create user request.
    */
   public static void validateCreateUser(Map<String, Object> userRequest) {
     List<String> notAllowedFields = Arrays.asList(JsonKey.REGISTERED_ORG_ID, JsonKey.ROOT_ORG_ID);
@@ -41,7 +41,7 @@ public class UserRequestValidator {
   /**
    * This method will validate update user data.
    *
-   * @param userRequest Complete update user request.
+   * @param userRequest update user request.
    */
   public static void validateUpdateUser(Map<String, Object> userRequest) {
     List<String> notAllowedFields = Arrays.asList(JsonKey.REGISTERED_ORG_ID, JsonKey.ROOT_ORG_ID);
