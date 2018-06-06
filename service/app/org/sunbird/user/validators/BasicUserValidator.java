@@ -135,6 +135,10 @@ public class BasicUserValidator {
       }
     }
 
+    validateEmail(userRequest, operation);
+  }
+
+  private static void validateEmail(Map<String, Object> userRequest, String operation) {
     if (operation.equalsIgnoreCase(JsonKey.CREATE)
         && (StringUtils.isBlank((String) userRequest.get(JsonKey.EMAIL))
             && StringUtils.isBlank((String) userRequest.get(JsonKey.PHONE)))) {
