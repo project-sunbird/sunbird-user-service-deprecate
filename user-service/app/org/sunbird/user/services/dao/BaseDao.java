@@ -23,7 +23,7 @@ public interface BaseDao {
    *
    * @param keyspace Keyspace name.
    * @param tableName Table name.
-   * @param request Map of requested key and their value to insert into DB.
+   * @param request Entity details.
    */
   default void create(String keyspace, String tableName, Object request) {
 
@@ -35,7 +35,7 @@ public interface BaseDao {
    *
    * @param keyspace Keyspace name.
    * @param tableName Table name.
-   * @param request Map of requested key and their value to update into DB.
+   * @param request Entity details.
    */
   default void update(String keyspace, String tableName, Object request) {
 
