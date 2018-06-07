@@ -24,6 +24,6 @@ public class EducationDaoImpl implements EducationDao {
   @Override
   public void delete(String educationId) {
 
-    delete(KEY_SPACE, TABLE_NAME, educationId);
+    deleteById(KEY_SPACE, TABLE_NAME, educationId);
   }
 }
