@@ -12,21 +12,21 @@ public interface UserOrgDao extends BaseDao {
   /**
    * Creating a user org entity for given user in database.
    *
-   * @param userOrg User Org details.
+   * @param userOrg User org details.
    */
   void create(UserOrg userOrg);
 
   /**
    * Updates user org entity for given user in database.
    *
-   * @param userOrg User Org details.
+   * @param userOrg User org details.
    */
   void update(UserOrg userOrg);
 
   /**
    * Deletes user org entity for given user from database.
    *
-   * @param userOrgId User Org Id.
+   * @param userOrgId User org Id.
    */
   void delete(String userOrgId);
 }
