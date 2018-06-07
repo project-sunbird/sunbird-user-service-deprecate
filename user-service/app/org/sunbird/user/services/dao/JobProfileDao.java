@@ -17,14 +17,14 @@ public interface JobProfileDao extends BaseDao {
   void create(JobProfile jobProfile);
 
   /**
-   * Updates job Profile entity for given user in database.
+   * Updates job profile entity for given user in database.
    *
    * @param jobProfile Job profile entity.
    */
   void update(JobProfile jobProfile);
 
   /**
-   * Deletes job Profile entity for given user from database.
+   * Deletes job profile entity for given user from database.
    *
    * @param jobProfileId Job profile id.
    */
