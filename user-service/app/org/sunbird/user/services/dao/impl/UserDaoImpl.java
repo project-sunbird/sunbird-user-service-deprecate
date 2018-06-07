@@ -14,13 +14,11 @@ public class UserDaoImpl implements UserDao {
 
   @Override
   public void create(User user) {
-
     create(KEY_SPACE, TABLE_NAME, user);
   }
 
   @Override
   public void update(User user) {
-
     update(KEY_SPACE, TABLE_NAME, user);
   }
 }

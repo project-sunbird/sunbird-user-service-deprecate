@@ -18,13 +18,11 @@ public class UserExternalIdentityDaoImpl implements UserExternalIdentityDao {
 
   @Override
   public void create(UserExternalIdentity userExtId) {
-
     create(KEY_SPACE, TABLE_NAME, userExtId);
   }
 
   @Override
   public void update(UserExternalIdentity userExtId) {
-
     update(KEY_SPACE, TABLE_NAME, userExtId);
   }
 

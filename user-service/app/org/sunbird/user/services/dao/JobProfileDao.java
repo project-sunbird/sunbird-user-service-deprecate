@@ -10,23 +10,23 @@ import org.sunbird.user.models.entity.JobProfile;
 public interface JobProfileDao extends BaseDao {
 
   /**
-   * Creating an jobProfile entity for given user in database.
+   * Creating a job Profile entity for given user in database.
    *
-   * @param jobProfile JobProfile details of given user.
+   * @param job Profile JobProfile details.
    */
   void create(JobProfile jobProfile);
 
   /**
-   * Updates jobProfile entity for given user in database.
+   * Updates job Profile entity for given user in database.
    *
-   * @param jobProfile JobProfile details of given user.
+   * @param job Profile JobProfile details.
    */
   void update(JobProfile jobProfile);
 
   /**
-   * Deletes jobProfile entity for given user from database.
+   * Deletes job Profile entity for given user from database.
    *
-   * @param jobProfileId JobProfileId Id.
+   * @param jobProfileId Job profile id.
    */
   void delete(String jobProfileId);
 }

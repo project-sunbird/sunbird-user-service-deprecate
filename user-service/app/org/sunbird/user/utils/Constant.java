@@ -14,5 +14,6 @@ public class Constant {
   public static final String USER = "user";
   public static final String KEY_SPACE = "sunbird";
   public static final String USER_TABLE = "user";
-  public static final String USER_EXT_IDENTITY_TABLE = "user_external_identity";
+  public static final String USER_EXTERNAL_IDENTITY_TABLE = "user_external_identity";
+  public static final String ID_TYPE = "idType";
 }

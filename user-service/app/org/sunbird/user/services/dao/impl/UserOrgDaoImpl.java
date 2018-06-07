@@ -15,19 +15,16 @@ public class UserOrgDaoImpl implements UserOrgDao {
 
   @Override
   public void create(UserOrg userOrg) {
-
     create(KEY_SPACE, TABLE_NAME, mapper.convertValue(userOrg, Map.class));
   }
 
   @Override
   public void update(UserOrg userOrg) {
-
     update(KEY_SPACE, TABLE_NAME, mapper.convertValue(userOrg, Map.class));
   }
 
   @Override
   public void delete(String userOrgId) {
-
     deleteById(KEY_SPACE, TABLE_NAME, userOrgId);
   }
 }

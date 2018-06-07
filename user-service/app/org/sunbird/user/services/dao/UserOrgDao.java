@@ -10,21 +10,21 @@ import org.sunbird.user.models.entity.UserOrg;
 public interface UserOrgDao extends BaseDao {
 
   /**
-   * Creating an userOrg entity for given user in database.
+   * Creating a user org entity for given user in database.
    *
-   * @param userOrg UserOrg details of given user.
+   * @param userOrg User Org details.
    */
   void create(UserOrg userOrg);
 
   /**
-   * Updates userOrg entity for given user in database.
+   * Updates user org entity for given user in database.
    *
-   * @param userOrg UserOrg details of given user.
+   * @param userOrg User Org details.
    */
   void update(UserOrg userOrg);
 
   /**
-   * Deletes userOrg entity for given user from database.
+   * Deletes user org entity for given user from database.
    *
    * @param userOrgId User Org Id.
    */

@@ -14,19 +14,16 @@ public class EducationDaoImpl implements EducationDao {
 
   @Override
   public void create(Education education) {
-
     create(KEY_SPACE, TABLE_NAME, education);
   }
 
   @Override
   public void update(Education education) {
-
     update(KEY_SPACE, TABLE_NAME, education);
   }
 
   @Override
   public void delete(String educationId) {
-
     deleteById(KEY_SPACE, TABLE_NAME, educationId);
   }
 }

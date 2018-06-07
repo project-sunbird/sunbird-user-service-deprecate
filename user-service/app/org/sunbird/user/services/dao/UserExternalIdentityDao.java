@@ -10,23 +10,23 @@ import org.sunbird.user.models.entity.UserExternalIdentity;
 public interface UserExternalIdentityDao extends BaseDao {
 
   /**
-   * Creating an userExternalIdentity entity for given user in database.
+   * Creating a user external identity entity for given user in database.
    *
-   * @param userExtId UserExternalIdentity details of given user.
+   * @param userExtId User external identity details.
    */
   void create(UserExternalIdentity userExtId);
 
   /**
-   * Updates userExternalIdentity entity for given user in database.
+   * Updates user external identity entity for given user in database.
    *
-   * @param userExtId UserExternalIdentity details of given user.
+   * @param userExtId User external identity details.
    */
   void update(UserExternalIdentity userExtId);
 
   /**
-   * Deletes userExternalIdentity entity for given user from database.
+   * Deletes user external identity entity for given user from database.
    *
-   * @param userExtId UserExternalIdentity details of given user.
+   * @param userExtId User external identity details.
    */
   void delete(UserExternalIdentity userExtId);
 }

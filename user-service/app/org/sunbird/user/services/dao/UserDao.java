@@ -10,7 +10,7 @@ import org.sunbird.user.models.entity.User;
 public interface UserDao extends BaseDao {
 
   /**
-   * Creating an user entity in database.
+   * Creating a user entity in database.
    *
    * @param user User details.
    */

@@ -14,19 +14,16 @@ public class JobProfileDaoImpl implements JobProfileDao {
 
   @Override
   public void create(JobProfile jobProfile) {
-
     create(KEY_SPACE, TABLE_NAME, jobProfile);
   }
 
   @Override
   public void update(JobProfile jobProfile) {
-
     update(KEY_SPACE, TABLE_NAME, jobProfile);
   }
 
   @Override
   public void delete(String jobProfileId) {
-
     deleteById(KEY_SPACE, TABLE_NAME, jobProfileId);
   }
 }
