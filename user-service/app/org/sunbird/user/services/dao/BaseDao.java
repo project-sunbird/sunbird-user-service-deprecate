@@ -73,7 +73,7 @@ public interface BaseDao {
    * @param keyspace Keyspace name.
    * @param tableName Table name.
    * @param identifier Identifier of the record to fetch.
-   * @return Response Response containing entity information
+   * @return Response containing entity information
    */
   default Response getRecordById(String keyspace, String tableName, String identifier) {
 
@@ -87,7 +87,7 @@ public interface BaseDao {
    * @param tableName Table name.
    * @param indexedColumn Indexed column name.
    * @param indexedValue Indexed column value.
-   * @return Response Response containing entity information
+   * @return Response containing entity information
    */
   default Response getRecordsByIndexedProperty(
       String keyspace, String tableName, String indexedColumn, String indexedValue) {
