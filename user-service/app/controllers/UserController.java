@@ -28,15 +28,12 @@ public class UserController extends BaseController {
     try {
       Request request = new Request();
       request.setOperation(Constant.CREATE_USER);
-      request.put(Constant.HEADERS, request().headers());
       RequestBody reqBody = request().body();
       if (reqBody == null) {
         // throwing invalid data exception.
-        throw createClientExcptionWithInvalidData(Message.INVALID_REQ_BODY_MSG_ERROR);
+        throw createClientExceptionWithInvalidData(Message.INVALID_REQ_BODY_MSG_ERROR);
       }
-
       return actorResponseHandler(getActorRef(), request, timeout, "", request());
-
     } catch (Exception e) {
       ProjectLogger.log(e.getMessage(), e);
       return Promise.<Result>pure(
@@ -53,15 +50,12 @@ public class UserController extends BaseController {
     try {
       Request request = new Request();
       request.setOperation(Constant.UPDATE_USER);
-      request.put(Constant.HEADERS, request().headers());
       RequestBody reqBody = request().body();
       if (reqBody == null) {
         // throwing invalid data exception.
-        throw createClientExcptionWithInvalidData(Message.INVALID_REQ_BODY_MSG_ERROR);
+        throw createClientExceptionWithInvalidData(Message.INVALID_REQ_BODY_MSG_ERROR);
       }
-
       return actorResponseHandler(getActorRef(), request, timeout, "", request());
-
     } catch (Exception e) {
       ProjectLogger.log(e.getMessage(), e);
       return Promise.<Result>pure(
@@ -69,7 +63,7 @@ public class UserController extends BaseController {
     }
   }
 
-  private ProjectCommonException createClientExcptionWithInvalidData(String message) {
+  private ProjectCommonException createClientExceptionWithInvalidData(String message) {
     String exceptionMessage = message;
     if (StringUtils.isBlank(exceptionMessage)) {
       exceptionMessage = Message.DEFAULT_MSG_ERROR;

@@ -1,7 +1,7 @@
 package org.sunbird.user.utils;
 
 /**
- * This class will keep all the environment variable used inside sunbird telemetry service.
+ * This class will keep all the environment variable used inside sunbird user service.
  *
  * @author Amit Kumar
  */

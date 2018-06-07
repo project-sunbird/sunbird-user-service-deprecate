@@ -1,23 +1,23 @@
 package org.sunbird.user.services.dao;
 
-import org.sunbird.user.models.User;
+import org.sunbird.user.models.entity.User;
 
 /**
- * This interface will provide method to interact with user table.
+ * UserDao is an interface for accessing user database entity.
  *
  * @author Amit Kumar
  */
 public interface UserDao extends BaseDao {
 
   /**
-   * This method will insert an user entry to DB.
+   * Creating an user entity in database.
    *
    * @param user User details.
    */
   void create(User user);
 
   /**
-   * This method will update an user entry to DB.
+   * Updates user entity database.
    *
    * @param user User details.
    */

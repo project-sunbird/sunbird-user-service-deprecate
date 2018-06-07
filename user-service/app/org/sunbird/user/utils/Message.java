@@ -1,7 +1,7 @@
 package org.sunbird.user.utils;
 
 /**
- * This class will contains all the messages used inside telemetry micro service.
+ * This class will contains all the messages used inside user micro service.
  *
  * @author Amit Kumar
  */

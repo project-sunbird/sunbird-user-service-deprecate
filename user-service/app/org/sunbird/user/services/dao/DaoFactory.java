@@ -7,7 +7,8 @@ import org.sunbird.user.services.dao.impl.UserExternalIdentityDaoImpl;
 import org.sunbird.user.services.dao.impl.UserOrgDaoImpl;
 
 /**
- * Factory class for DaoImpl. This class will provide specific daoImpl obj based on dao type.
+ * Factory class for various user DAO implementation classes. Based on given type corresponding user
+ * DAO implementation is instantiated and returned.
  *
  * @author Amit Kumar
  */
@@ -15,9 +16,9 @@ public class DaoFactory {
 
   private static final String USER = "user";
   private static final String EDUCATION = "education";
-  private static final String JOB_PROFILE = "jobProfile";
-  private static final String USER_EXTERNAL_IDENTITY = "userExternalIdentity";
-  private static final String USER_ORG = "userOrg";
+  private static final String JOB_PROFILE = "job_profile";
+  private static final String USER_EXTERNAL_IDENTITY = "user_external_identity";
+  private static final String USER_ORG = "user_org";
 
   private DaoFactory() {}
 

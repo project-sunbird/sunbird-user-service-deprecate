@@ -4,62 +4,62 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
 import org.sunbird.cassandra.CassandraOperation;
 import org.sunbird.common.models.response.Response;
+import org.sunbird.common.models.util.JsonKey;
 import org.sunbird.helper.ServiceFactory;
 
 /**
- * This Dao class will provide the default implementation of
- * insert/update/delete/readById/readByIndexedProperty methods of CassandraOperation class.
+ * BaseDao is an interface with default implementation for accessing objects in database.
  *
  * @author Amit Kumar
  */
 public interface BaseDao {
 
-  String KEY_SPACE = "sunbird";
+  String KEY_SPACE = JsonKey.SUNBIRD;
   CassandraOperation cassandraOperation = ServiceFactory.getInstance();
   ObjectMapper mapper = new ObjectMapper();
 
   /**
-   * default implementation for insertRecord of CassandraOperation.
+   * Default implementation for creating an entity in database.
    *
-   * @param keySpace KeySpace name.
+   * @param keyspace Keyspace name.
    * @param tableName Table name.
    * @param request Map of requested key and their value to insert into DB.
    */
-  default void create(String keySpace, String tableName, Map<String, Object> request) {
+  default void create(String keyspace, String tableName, Object request) {
 
-    cassandraOperation.insertRecord(keySpace, tableName, request);
+    cassandraOperation.insertRecord(keyspace, tableName, mapper.convertValue(request, Map.class));
   }
 
   /**
-   * default implementation for updateRecord of CassandraOperation.
+   * Default implementation for updating an entity in database.
    *
-   * @param keySpace KeySpace name.
+   * @param keyspace Keyspace name.
    * @param tableName Table name.
    * @param request Map of requested key and their value to update into DB.
    */
-  default void update(String keySpace, String tableName, Map<String, Object> request) {
+  default void update(String keyspace, String tableName, Object request) {
 
-    cassandraOperation.updateRecord(keySpace, tableName, request);
+    cassandraOperation.updateRecord(keyspace, tableName, mapper.convertValue(request, Map.class));
   }
 
   /**
-   * default implementation for deleteRecord by identifier of CassandraOperation.
+   * Default implementation for deleting an entity from database.
    *
-   * @param keySpace KeySpace name.
+   * @param keyspace Keyspace name.
    * @param tableName Table name.
-   * @param identifier Identifier of the record to delete.
+   * @param identifier Entity primary key.
    */
-  default void deleteById(String keySpace, String tableName, String identifier) {
+  default void deleteById(String keyspace, String tableName, String identifier) {
 
-    cassandraOperation.deleteRecord(keySpace, tableName, identifier);
+    cassandraOperation.deleteRecord(keyspace, tableName, identifier);
   }
 
   /**
-   * default implementation for deleteRecord by composite key of CassandraOperation.
+   * Default implementation for deleting an entity from database using a composite primary key.
    *
-   * @param keySpace KeySpace name.
+   * @param keyspace Keyspace name.
    * @param tableName Table name.
-   * @param compositeKeyMap Map of the composite key and its value.
+   * @param compositeKeyMap Entity composite primary key.
    */
   default void deleteByCompositeKey(
       String keySpace, String tableName, Map<String, String> compositeKeyMap) {
@@ -68,31 +68,31 @@ public interface BaseDao {
   }
 
   /**
-   * default implementation for getRecordById of CassandraOperation.
+   * Default implementation for retrieving an entity from database using a primary key.
    *
-   * @param keySpace KeySpace name.
+   * @param keyspace Keyspace name.
    * @param tableName Table name.
    * @param identifier Identifier of the record to fetch.
-   * @return Response
+   * @return Response Response containing entity information
    */
-  default Response getRecordById(String keySpace, String tableName, String identifier) {
+  default Response getRecordById(String keyspace, String tableName, String identifier) {
 
-    return cassandraOperation.getRecordById(keySpace, tableName, identifier);
+    return cassandraOperation.getRecordById(keyspace, tableName, identifier);
   }
 
   /**
-   * default implementation for getRecordByIndexedProperty of CassandraOperation.
+   * Default implementation for retrieving an entity from database using an indexed key.
    *
-   * @param keySpace KeySpace name.
+   * @param keyspace Keyspace name.
    * @param tableName Table name.
-   * @param indexedProperty Indexed property name.
-   * @param propertyValue Indexed property Value.
-   * @return Response
+   * @param indexedColumn Indexed column name.
+   * @param indexedValue Indexed column value.
+   * @return Response Response containing entity information
    */
   default Response getRecordsByIndexedProperty(
-      String keySpace, String tableName, String indexedProperty, String propertyValue) {
+      String keyspace, String tableName, String indexedColumn, String indexedValue) {
 
     return cassandraOperation.getRecordsByIndexedProperty(
-        keySpace, tableName, indexedProperty, propertyValue);
+        keyspace, tableName, indexedColumn, indexedValue);
   }
 }

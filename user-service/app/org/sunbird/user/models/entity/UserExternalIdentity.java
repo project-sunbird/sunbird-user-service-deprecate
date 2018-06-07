@@ -1,4 +1,4 @@
-package org.sunbird.user.models;
+package org.sunbird.user.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.sql.Timestamp;
 
 /**
- * @desc POJO class for UserExternalIdentity
+ * @desc UserExternalIdentity entity class.
  * @author Amit Kumar
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -17,7 +17,6 @@ public class UserExternalIdentity {
   private String provider;
   private String idType;
   private String userId;
-  private String slug;
   private Timestamp createdOn;
   private Timestamp lastUpdatedOn;
   private String createdBy;
@@ -53,14 +52,6 @@ public class UserExternalIdentity {
 
   public void setUserId(String userId) {
     this.userId = userId;
-  }
-
-  public String getSlug() {
-    return slug;
-  }
-
-  public void setSlug(String slug) {
-    this.slug = slug;
   }
 
   public Timestamp getCreatedOn() {

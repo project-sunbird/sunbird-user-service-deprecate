@@ -7,7 +7,7 @@ import play.mvc.Http.Request;
 /**
  * Perform specific tasks to perform on application start, request, error etc.
  *
- * @author Manzarul
+ * @author Amit Kumar
  */
 public class Global extends BaseGlobal {
 

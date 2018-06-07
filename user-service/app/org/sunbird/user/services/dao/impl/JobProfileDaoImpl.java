@@ -1,10 +1,13 @@
 package org.sunbird.user.services.dao.impl;
 
-import java.util.Map;
-import org.sunbird.user.models.JobProfile;
+import org.sunbird.user.models.entity.JobProfile;
 import org.sunbird.user.services.dao.JobProfileDao;
 
-/** @author Amit Kumar */
+/**
+ * DAO implementation class for user job profile entity.
+ *
+ * @author Amit Kumar
+ */
 public class JobProfileDaoImpl implements JobProfileDao {
 
   public static final String TABLE_NAME = "job_profile";
@@ -12,13 +15,13 @@ public class JobProfileDaoImpl implements JobProfileDao {
   @Override
   public void create(JobProfile jobProfile) {
 
-    create(KEY_SPACE, TABLE_NAME, mapper.convertValue(jobProfile, Map.class));
+    create(KEY_SPACE, TABLE_NAME, jobProfile);
   }
 
   @Override
   public void update(JobProfile jobProfile) {
 
-    update(KEY_SPACE, TABLE_NAME, mapper.convertValue(jobProfile, Map.class));
+    update(KEY_SPACE, TABLE_NAME, jobProfile);
   }
 
   @Override

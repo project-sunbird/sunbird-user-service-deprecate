@@ -1,30 +1,30 @@
 package org.sunbird.user.services.dao;
 
-import org.sunbird.user.models.JobProfile;
+import org.sunbird.user.models.entity.JobProfile;
 
 /**
- * This interface will provide method to interact with user job profile table.
+ * JobProfileDao is an interface for accessing user job profile database entity.
  *
  * @author Amit Kumar
  */
 public interface JobProfileDao extends BaseDao {
 
   /**
-   * This method will insert an jobProfile entry for given user to DB.
+   * Creating an jobProfile entity for given user in database.
    *
    * @param jobProfile JobProfile details of given user.
    */
   void create(JobProfile jobProfile);
 
   /**
-   * This method will update an jobProfile entry for given user to DB.
+   * Updates jobProfile entity for given user in database.
    *
    * @param jobProfile JobProfile details of given user.
    */
   void update(JobProfile jobProfile);
 
   /**
-   * This method will delete the existing jobProfile entry for given user from DB.
+   * Deletes jobProfile entity for given user from database.
    *
    * @param jobProfileId JobProfileId Id.
    */

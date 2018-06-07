@@ -1,32 +1,32 @@
 package org.sunbird.user.services.dao;
 
-import org.sunbird.user.models.Education;
+import org.sunbird.user.models.entity.Education;
 
 /**
- * This interface will provide method to interact with user education table.
+ * EducationDao is an interface for accessing user education database entity.
  *
  * @author Amit Kumar
  */
 public interface EducationDao extends BaseDao {
 
   /**
-   * This method will insert an education entry for given user to DB.
+   * Creating an education entity for given user in database.
    *
    * @param education Education details of given user.
    */
   void create(Education education);
 
   /**
-   * This method will update the existing education entry for given user to DB.
+   * Updates education entity for given user in database.
    *
    * @param education Education details of given user.
    */
   void update(Education education);
 
   /**
-   * This method will delete the existing education entry for given user from DB.
+   * Deletes education entity for given user from database.
    *
-   * @param educationId Education Id.
+   * @param educationId Identifier for education entity.
    */
   void delete(String educationId);
 }

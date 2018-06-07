@@ -1,30 +1,30 @@
 package org.sunbird.user.services.dao;
 
-import org.sunbird.user.models.UserOrg;
+import org.sunbird.user.models.entity.UserOrg;
 
 /**
- * This interface will provide method to interact with user Org table.
+ * UserOrgDao is an interface for accessing user org database entity.
  *
  * @author Amit Kumar
  */
 public interface UserOrgDao extends BaseDao {
 
   /**
-   * This method will insert an org entry for given user to DB.
+   * Creating an userOrg entity for given user in database.
    *
    * @param userOrg UserOrg details of given user.
    */
   void create(UserOrg userOrg);
 
   /**
-   * This method will update an org entry for given user to DB.
+   * Updates userOrg entity for given user in database.
    *
    * @param userOrg UserOrg details of given user.
    */
   void update(UserOrg userOrg);
 
   /**
-   * This method will delete the existing org entry for given user from DB.
+   * Deletes userOrg entity for given user from database.
    *
    * @param userOrgId User Org Id.
    */
