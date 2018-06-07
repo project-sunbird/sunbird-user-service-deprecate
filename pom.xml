@@ -6,7 +6,6 @@
   <packaging>pom</packaging>
   <name>Sunbird User Service</name>
   <modules>
-      <module>service/libs</module>
       <module>user-service</module>
 	  <module>user-client</module>
   </modules>
