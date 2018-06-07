@@ -7,6 +7,7 @@
   <name>Sunbird User Service</name>
   <modules>
       <module>service/libs</module>
-      <module>service</module>
+      <module>user-service</module>
+	  <module>user-client</module>
   </modules>
 </project>

@@ -44,10 +44,8 @@ public class BasicUserValidator {
    */
   public static void phoneValidation(Map<String, Object> userRequest) {
     if (StringUtils.isNotBlank((String) userRequest.get(JsonKey.PHONE))) {
-      validatePhoneNo(
+      PhoneValidator.validatePhoneNo(
           (String) userRequest.get(JsonKey.PHONE), (String) userRequest.get(JsonKey.COUNTRY_CODE));
-    }
-    if (!StringUtils.isBlank((String) userRequest.get(JsonKey.PHONE))) {
       if (null != userRequest.get(JsonKey.PHONE_VERIFIED)) {
         if (userRequest.get(JsonKey.PHONE_VERIFIED) instanceof Boolean) {
           if (!((boolean) userRequest.get(JsonKey.PHONE_VERIFIED))) {
@@ -69,39 +67,12 @@ public class BasicUserValidator {
         ERROR_CODE);
   }
 
-  private static boolean validatePhoneNo(String phone, String countryCode) {
-    if (phone.contains("+")) {
-      throw new ProjectCommonException(
-          ResponseCode.invalidPhoneNumber.getErrorCode(),
-          ResponseCode.invalidPhoneNumber.getErrorMessage(),
-          ERROR_CODE);
-    }
-    if (StringUtils.isNotBlank(countryCode)) {
-      boolean bool = ProjectUtil.validateCountryCode(countryCode);
-      if (!bool) {
-        throw new ProjectCommonException(
-            ResponseCode.invalidCountryCode.getErrorCode(),
-            ResponseCode.invalidCountryCode.getErrorMessage(),
-            ERROR_CODE);
-      }
-    }
-    if (ProjectUtil.validatePhone(phone, countryCode)) {
-      return true;
-    } else {
-      throw new ProjectCommonException(
-          ResponseCode.phoneNoFormatError.getErrorCode(),
-          ResponseCode.phoneNoFormatError.getErrorMessage(),
-          ERROR_CODE);
-    }
-  }
-
   /**
    * This method will do basic validation for user request object.
    *
    * @param userRequest
    */
   public static void userBasicValidation(Map<String, Object> userRequest, String operation) {
-
     throwMandatoryParamMissingException(
         JsonKey.USERNAME, (String) userRequest.get(JsonKey.USERNAME), JsonKey.CREATE);
 
@@ -130,7 +101,6 @@ public class BasicUserValidator {
             ERROR_CODE);
       }
     }
-
     validateEmail(userRequest, operation);
   }
 
