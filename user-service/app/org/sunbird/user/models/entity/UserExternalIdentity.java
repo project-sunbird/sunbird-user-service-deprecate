@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.sql.Timestamp;
 
 /**
- * @desc UserExternalIdentity entity class.
+ * @desc User External Identity entity class.
  * @author Amit Kumar
  */
 @JsonIgnoreProperties(ignoreUnknown = true)

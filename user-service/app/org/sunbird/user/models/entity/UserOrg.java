@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /**
- * @desc UserOrg entity class.
+ * @desc User Org entity class.
  * @author Amit Kumar
  */
 @JsonIgnoreProperties(ignoreUnknown = true)

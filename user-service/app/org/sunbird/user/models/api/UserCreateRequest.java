@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @desc User Request api class
+ * @desc User Create API request class
  * @author Amit Kumar
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -18,7 +18,6 @@ public class UserCreateRequest {
   private String avatar;
   private String countryCode;
   private String createdBy;
-  private String createdDate;
   private String dob;
   private String email;
   private Boolean emailVerified;
@@ -35,7 +34,6 @@ public class UserCreateRequest {
   private List<String> roles;
   private List<String> subject;
   private String updatedBy;
-  private String updatedDate;
   private String userName;
   private String userId;
   private List<Map<String, Object>> webPages;
