@@ -24,6 +24,6 @@ public class JobProfileDaoImpl implements JobProfileDao {
   @Override
   public void delete(String jobProfileId) {
 
-    delete(KEY_SPACE, TABLE_NAME, jobProfileId);
+    deleteById(KEY_SPACE, TABLE_NAME, jobProfileId);
   }
 }
