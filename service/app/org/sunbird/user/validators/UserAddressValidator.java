@@ -61,11 +61,12 @@ public class UserAddressValidator {
   }
 
   private static void throwAddressException(String paramName, String paramValue, String type) {
-    if (StringUtils.isEmpty(paramValue))
-      throw new ProjectCommonException(
-          ResponseCode.addressError.getErrorCode(),
-          ProjectUtil.formatMessage(ResponseCode.addressError.getErrorMessage(), type, paramName),
-          ERROR_CODE);
+    String param =
+        ProjectUtil.formatMessage(
+            ResponseMessage.Message.DOT_FORMAT,
+            (ProjectUtil.formatMessage(ResponseMessage.Message.DOT_FORMAT, type, JsonKey.ADDRESS)),
+            paramName);
+    throwMandatoryParamMissingException(param, paramValue);
   }
 
   public static void validateUpdateUserAddress(Map<String, Object> userRequest) {
@@ -102,9 +103,11 @@ public class UserAddressValidator {
   }
 
   private static void throwMandatoryParamMissingException(String paramName, String paramValue) {
-    throw new ProjectCommonException(
-        ResponseCode.mandatoryParamsMissing.getErrorCode(),
-        ProjectUtil.formatMessage(ResponseCode.mandatoryParamsMissing.getErrorMessage(), paramName),
-        ERROR_CODE);
+    if (StringUtils.isBlank(paramValue))
+      throw new ProjectCommonException(
+          ResponseCode.mandatoryParamsMissing.getErrorCode(),
+          ProjectUtil.formatMessage(
+              ResponseCode.mandatoryParamsMissing.getErrorMessage(), paramName),
+          ERROR_CODE);
   }
 }
