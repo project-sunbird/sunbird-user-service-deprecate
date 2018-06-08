@@ -1,45 +1,52 @@
 package org.sunbird.user.validators;
 
+import com.mashape.unirest.request.BaseRequest;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import org.sunbird.common.models.util.JsonKey;
+import org.sunbird.common.request.BaseRequestValidator;
 
 /**
  * This class contains method to validate create/update user request.
  *
  * @author Amit Kumar
  */
-public class UserRequestValidator {
+public class UserRequestValidator extends BaseRequest {
 
-  private UserRequestValidator() {}
+  private BaseRequestValidator baseRequestValidator = null;
+  private BasicUserValidator basicUserValidator = null;
+  private UserExternalIdentityValidator userExternalIdentityValidator = null;
+  private UserEducationValidator userEducationValidator = null;
+  private UserAddressValidator userAddressValidator = null;
+  private UserJobProfileValidator userJobProfileValidator = null;
 
-  public static void validateUser(Map<String, Object> user, String operation) {
-    if (JsonKey.CREATE.equalsIgnoreCase(operation)) {
-      validateCreateUser(user);
-    } else {
-      validateUpdateUser(user);
-    }
+  public UserRequestValidator() {
+    baseRequestValidator = new BaseRequestValidator();
+    basicUserValidator = new BasicUserValidator();
+    userExternalIdentityValidator = new UserExternalIdentityValidator();
+    userEducationValidator = new UserEducationValidator();
+    userAddressValidator = new UserAddressValidator();
+    userJobProfileValidator = new UserJobProfileValidator();
   }
-
   /**
    * This method will validate create user data.
    *
    * @param userRequest create user request.
    */
-  private static void validateCreateUser(Map<String, Object> userRequest) {
+  public void validateCreateUser(Map<String, Object> userRequest) {
     List<String> notAllowedFields = Arrays.asList(JsonKey.REGISTERED_ORG_ID, JsonKey.ROOT_ORG_ID);
-    BasicUserValidator.fieldsNotAllowed(notAllowedFields, userRequest);
+    baseRequestValidator.checkForFieldsNotAllowed(userRequest, notAllowedFields);
     commonValidation(userRequest, JsonKey.CREATE);
   }
 
-  private static void commonValidation(Map<String, Object> userRequest, String operation) {
-    UserExternalIdentityValidator.externalIdsValidation(userRequest, operation);
-    BasicUserValidator.phoneValidation(userRequest);
-    BasicUserValidator.userBasicValidation(userRequest, operation);
-    UserAddressValidator.addressValidation(userRequest, operation);
-    UserEducationValidator.educationValidation(userRequest, operation);
-    UserJobProfileValidator.jobProfileValidation(userRequest, operation);
+  private void commonValidation(Map<String, Object> userRequest, String operation) {
+    userExternalIdentityValidator.externalIdsValidation(userRequest, operation);
+    basicUserValidator.validatePhone(userRequest);
+    basicUserValidator.userBasicValidation(userRequest, operation);
+    userAddressValidator.validateAddress(userRequest, operation);
+    userEducationValidator.validateEducation(userRequest, operation);
+    userJobProfileValidator.validateJobProfile(userRequest, operation);
   }
 
   /**
@@ -47,10 +54,10 @@ public class UserRequestValidator {
    *
    * @param userRequest update user request.
    */
-  private static void validateUpdateUser(Map<String, Object> userRequest) {
+  public void validateUpdateUser(Map<String, Object> userRequest) {
     List<String> notAllowedFields =
         Arrays.asList(JsonKey.REGISTERED_ORG_ID, JsonKey.ROOT_ORG_ID, JsonKey.CHANNEL);
-    BasicUserValidator.fieldsNotAllowed(notAllowedFields, userRequest);
+    baseRequestValidator.checkForFieldsNotAllowed(userRequest, notAllowedFields);
     commonValidation(userRequest, JsonKey.UPDATE);
   }
 }

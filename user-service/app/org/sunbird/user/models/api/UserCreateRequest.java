@@ -72,14 +72,6 @@ public class UserCreateRequest {
     this.createdBy = createdBy;
   }
 
-  public String getCreatedDate() {
-    return createdDate;
-  }
-
-  public void setCreatedDate(String createdDate) {
-    this.createdDate = createdDate;
-  }
-
   public String getDob() {
     return dob;
   }
@@ -208,14 +200,6 @@ public class UserCreateRequest {
 
   public void setUpdatedBy(String updatedBy) {
     this.updatedBy = updatedBy;
-  }
-
-  public String getUpdatedDate() {
-    return updatedDate;
-  }
-
-  public void setUpdatedDate(String updatedDate) {
-    this.updatedDate = updatedDate;
   }
 
   public String getUserName() {

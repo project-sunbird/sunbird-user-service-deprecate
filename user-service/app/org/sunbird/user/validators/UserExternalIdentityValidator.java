@@ -16,37 +16,28 @@ import org.sunbird.user.utils.Constant;
  *
  * @author Amit Kumar
  */
-public class UserExternalIdentityValidator {
+public class UserExternalIdentityValidator extends BaseValidator {
 
-  private static final int ERROR_CODE = ResponseCode.CLIENT_ERROR.getResponseCode();
   // valid operation type for externalIds in user api.
-  private static List<String> operationTypeList =
+  private List<String> operationTypeList =
       Arrays.asList(Constant.ADD, Constant.REMOVE, Constant.EDIT);
 
-  private UserExternalIdentityValidator() {}
-
-  public static void externalIdsValidation(Map<String, Object> userRequest, String operation) {
-    if (userRequest.containsKey(Constant.EXTERNAL_IDS)
-        && (null != userRequest.get(Constant.EXTERNAL_IDS))) {
-      if (!(userRequest.get(Constant.EXTERNAL_IDS) instanceof List)) {
-        throw new ProjectCommonException(
-            ResponseCode.dataTypeError.getErrorCode(),
-            ProjectUtil.formatMessage(
-                ResponseCode.dataTypeError.getErrorMessage(), Constant.EXTERNAL_IDS, JsonKey.LIST),
-            ERROR_CODE);
-      }
-      List<Map<String, String>> externalIds =
-          (List<Map<String, String>>) userRequest.get(Constant.EXTERNAL_IDS);
-      validateIndividualExternalId(operation, externalIds);
-    }
+  public void externalIdsValidation(Map<String, Object> userRequest, String operation) {
+    validateListParam(userRequest, Constant.EXTERNAL_IDS);
+    List<Map<String, String>> externalIds =
+        (List<Map<String, String>>) userRequest.get(Constant.EXTERNAL_IDS);
+    validateIndividualExternalId(operation, externalIds);
   }
 
-  private static void validateIndividualExternalId(
+  private void validateIndividualExternalId(
       String operation, List<Map<String, String>> externalIds) {
     externalIds
         .stream()
         .forEach(
             s -> {
+              validateExternalIdMandatoryParam(JsonKey.ID, s.get(JsonKey.ID));
+              validateExternalIdMandatoryParam(JsonKey.PROVIDER, s.get(JsonKey.PROVIDER));
+              validateExternalIdMandatoryParam(Constant.ID_TYPE, s.get(Constant.ID_TYPE));
               // check for invalid operation type
               if (StringUtils.isNotBlank(s.get(JsonKey.OPERATION))
                   && (!operationTypeList.contains((s.get(JsonKey.OPERATION)).toLowerCase()))) {
@@ -73,13 +64,10 @@ public class UserExternalIdentityValidator {
                         Constant.ADD),
                     ERROR_CODE);
               }
-              validateExternalIdMandatoryParam(JsonKey.ID, s.get(JsonKey.ID));
-              validateExternalIdMandatoryParam(JsonKey.PROVIDER, s.get(JsonKey.PROVIDER));
-              validateExternalIdMandatoryParam(Constant.ID_TYPE, s.get(Constant.ID_TYPE));
             });
   }
 
-  private static void validateExternalIdMandatoryParam(String param, String paramValue) {
+  private void validateExternalIdMandatoryParam(String param, String paramValue) {
     if (StringUtils.isBlank(paramValue)) {
       throw new ProjectCommonException(
           ResponseCode.mandatoryParamsMissing.getErrorCode(),

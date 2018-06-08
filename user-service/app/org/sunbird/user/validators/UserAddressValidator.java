@@ -8,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.sunbird.common.exception.ProjectCommonException;
 import org.sunbird.common.models.util.JsonKey;
 import org.sunbird.common.models.util.ProjectUtil;
-import org.sunbird.common.models.util.ProjectUtil.AddressType;
 import org.sunbird.common.responsecode.ResponseCode;
 import org.sunbird.common.responsecode.ResponseMessage;
 
@@ -19,52 +18,40 @@ import org.sunbird.common.responsecode.ResponseMessage;
  */
 public class UserAddressValidator extends BaseValidator {
 
-  private UserAddressValidator() {}
-
   /**
    * Method to validate user Address
    *
    * @param userRequest
    */
   @SuppressWarnings("unchecked")
-  public static void addressValidation(Map<String, Object> userRequest, String operation) {
-    if (userRequest.containsKey(JsonKey.ADDRESS) && null != userRequest.get(JsonKey.ADDRESS)) {
-      if (!(userRequest.get(JsonKey.ADDRESS) instanceof List)) {
-        throw new ProjectCommonException(
-            ResponseCode.dataTypeError.getErrorCode(),
-            ProjectUtil.formatMessage(
-                ResponseCode.dataTypeError.getErrorMessage(), JsonKey.ADDRESS, JsonKey.LIST),
-            ERROR_CODE);
-      } else if (userRequest.get(JsonKey.ADDRESS) instanceof List) {
-        List<Map<String, Object>> reqList =
-            (List<Map<String, Object>>) userRequest.get(JsonKey.ADDRESS);
-        if (CollectionUtils.isNotEmpty(reqList))
-          for (int i = 0; i < reqList.size(); i++) {
-            validateAddress(reqList.get(i), JsonKey.USER, operation);
-          }
+  public void validateAddress(Map<String, Object> userRequest, String operation) {
+    validateListParam(userRequest, JsonKey.ADDRESS);
+    List<Map<String, Object>> reqList =
+        (List<Map<String, Object>>) userRequest.get(JsonKey.ADDRESS);
+    if (CollectionUtils.isNotEmpty(reqList))
+      for (int i = 0; i < reqList.size(); i++) {
+        validateAddressElement(reqList.get(i), JsonKey.USER, operation);
       }
-    }
   }
 
   /**
    * Method to validate individual address request
    *
-   * @param address
-   * @param type
+   * @param address Address details
+   * @param type For which entity address belongs to i.e for education , job_profile,etc
    */
-  public static void validateAddress(Map<String, Object> address, String type, String operation) {
+  public void validateAddressElement(Map<String, Object> address, String type, String operation) {
     if (MapUtils.isNotEmpty(address)) {
       // if isDeleted flag is true and addressId is missing throw exception
       validateDeletedEntity(address, operation, JsonKey.ADDRESS);
-      throwAddressException(
-          JsonKey.ADDRESS_LINE1, (String) address.get(JsonKey.ADDRESS_LINE1), type);
-      throwAddressException(JsonKey.CITY, (String) address.get(JsonKey.CITY), type);
+      throwAddressException(address, JsonKey.ADDRESS_LINE1, type);
+      throwAddressException(address, JsonKey.CITY, type);
 
       if (address.containsKey(JsonKey.ADD_TYPE) && type.equals(JsonKey.USER)) {
-        throwAddressException(JsonKey.ADD_TYPE, (String) address.get(JsonKey.ADD_TYPE), type);
+        throwAddressException(address, JsonKey.ADD_TYPE, type);
 
         if (!StringUtils.isBlank((String) address.get(JsonKey.ADD_TYPE))
-            && !checkAddressType((String) address.get(JsonKey.ADD_TYPE))) {
+            && !validateAddressType((String) address.get(JsonKey.ADD_TYPE))) {
           throw new ProjectCommonException(
               ResponseCode.addressTypeError.getErrorCode(),
               ResponseCode.addressTypeError.getErrorMessage(),
@@ -74,21 +61,38 @@ public class UserAddressValidator extends BaseValidator {
     }
   }
 
-  private static void throwAddressException(String paramName, String paramValue, String type) {
-    String param =
+  private void throwAddressException(Map<String, Object> address, String paramName, String type) {
+    String exceptionMsg =
         ProjectUtil.formatMessage(
             ResponseMessage.Message.DOT_FORMAT,
             (ProjectUtil.formatMessage(ResponseMessage.Message.DOT_FORMAT, type, JsonKey.ADDRESS)),
             paramName);
-    throwMandatoryParamMissingException(param, paramValue);
+    checkMandatoryParamsPresent(address, exceptionMsg, paramName);
   }
 
-  private static boolean checkAddressType(String addrType) {
+  private boolean validateAddressType(String addrType) {
     for (AddressType type : AddressType.values()) {
       if (type.getTypeName().equals(addrType)) {
         return true;
       }
     }
     return false;
+  }
+
+  /** This ENUM will hold all the Address type name. */
+  public enum AddressType {
+    PERMANENT("permanent"),
+    CURRENT("current"),
+    OFFICE("office"),
+    HOME("home");
+    private String typeName;
+
+    private AddressType(String name) {
+      this.typeName = name;
+    }
+
+    public String getTypeName() {
+      return typeName;
+    }
   }
 }
