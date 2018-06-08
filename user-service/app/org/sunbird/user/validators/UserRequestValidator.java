@@ -38,8 +38,8 @@ public class UserRequestValidator {
     BasicUserValidator.phoneValidation(userRequest);
     BasicUserValidator.userBasicValidation(userRequest, operation);
     UserAddressValidator.addressValidation(userRequest, operation);
-    UserEducationValidator.educationValidation(userRequest);
-    UserJobProfileValidator.jobProfileValidation(userRequest);
+    UserEducationValidator.educationValidation(userRequest, operation);
+    UserJobProfileValidator.jobProfileValidation(userRequest, operation);
   }
 
   /**
