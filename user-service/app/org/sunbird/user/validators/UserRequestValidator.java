@@ -28,9 +28,9 @@ public class UserRequestValidator extends UserBaseRequestValidator {
     userJobProfileValidator = new UserJobProfileValidator();
   }
   /**
-   * This method will validate create user data.
+   * Validates request of create User API
    *
-   * @param userRequest create user request.
+   * @param userRequest create user request details.
    */
   public void validateCreateUser(Map<String, Object> userRequest) {
     List<String> notAllowedFields = Arrays.asList(JsonKey.REGISTERED_ORG_ID, JsonKey.ROOT_ORG_ID);
@@ -39,9 +39,9 @@ public class UserRequestValidator extends UserBaseRequestValidator {
   }
 
   /**
-   * This method will validate update user data.
+   * Validates request of update User API
    *
-   * @param userRequest update user request.
+   * @param userRequest update user request details.
    */
   public void validateUpdateUser(Map<String, Object> userRequest) {
     List<String> notAllowedFields =

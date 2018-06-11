@@ -5,8 +5,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.sunbird.common.models.util.JsonKey;
-import org.sunbird.common.models.util.ProjectUtil;
-import org.sunbird.common.responsecode.ResponseMessage;
+import org.sunbird.common.models.util.StringFormatter;
 
 /**
  * This class provide helper methods to validate user job profile request.
@@ -45,13 +44,11 @@ public class UserJobProfileValidator extends UserBaseRequestValidator {
       validateJoiningAndJobEndDateFormat(jobProfile);
       checkMandatoryParamsPresent(
           jobProfile,
-          ProjectUtil.formatMessage(
-              ResponseMessage.Message.DOT_FORMAT, JsonKey.JOB_PROFILE, JsonKey.JOB_NAME),
+          StringFormatter.joinByDot(JsonKey.JOB_PROFILE, JsonKey.JOB_NAME),
           JsonKey.JOB_NAME);
       checkMandatoryParamsPresent(
           jobProfile,
-          ProjectUtil.formatMessage(
-              ResponseMessage.Message.DOT_FORMAT, JsonKey.JOB_PROFILE, JsonKey.ORG_NAME),
+          StringFormatter.joinByDot(JsonKey.JOB_PROFILE, JsonKey.ORG_NAME),
           JsonKey.ORG_NAME);
 
       userAddressValidator.validateAddressField(

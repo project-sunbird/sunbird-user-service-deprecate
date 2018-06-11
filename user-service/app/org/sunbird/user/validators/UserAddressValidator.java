@@ -7,9 +7,8 @@ import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.sunbird.common.exception.ProjectCommonException;
 import org.sunbird.common.models.util.JsonKey;
-import org.sunbird.common.models.util.ProjectUtil;
+import org.sunbird.common.models.util.StringFormatter;
 import org.sunbird.common.responsecode.ResponseCode;
-import org.sunbird.common.responsecode.ResponseMessage;
 import org.sunbird.user.models.entity.Address.AddressType;
 
 /**
@@ -52,10 +51,7 @@ public class UserAddressValidator extends UserBaseRequestValidator {
 
   private void throwAddressException(Map<String, Object> address, String paramName, String type) {
     String exceptionMsg =
-        ProjectUtil.formatMessage(
-            ResponseMessage.Message.DOT_FORMAT,
-            (ProjectUtil.formatMessage(ResponseMessage.Message.DOT_FORMAT, type, JsonKey.ADDRESS)),
-            paramName);
+        StringFormatter.joinByDot((StringFormatter.joinByDot(type, JsonKey.ADDRESS)), paramName);
     checkMandatoryParamsPresent(address, exceptionMsg, paramName);
   }
 

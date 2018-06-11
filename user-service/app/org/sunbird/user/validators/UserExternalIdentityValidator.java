@@ -7,8 +7,8 @@ import org.apache.commons.lang.StringUtils;
 import org.sunbird.common.exception.ProjectCommonException;
 import org.sunbird.common.models.util.JsonKey;
 import org.sunbird.common.models.util.ProjectUtil;
+import org.sunbird.common.models.util.StringFormatter;
 import org.sunbird.common.responsecode.ResponseCode;
-import org.sunbird.common.responsecode.ResponseMessage;
 import org.sunbird.user.utils.Constant;
 
 /**
@@ -40,9 +40,18 @@ public class UserExternalIdentityValidator extends UserBaseRequestValidator {
         .stream()
         .forEach(
             s -> {
-              validateExternalIdMandatoryParam(JsonKey.ID, s.get(JsonKey.ID));
-              validateExternalIdMandatoryParam(JsonKey.PROVIDER, s.get(JsonKey.PROVIDER));
-              validateExternalIdMandatoryParam(Constant.ID_TYPE, s.get(Constant.ID_TYPE));
+              validateParamValue(
+                  s.get(JsonKey.ID),
+                  ResponseCode.mandatoryParamsMissing,
+                  StringFormatter.joinByDot(Constant.EXTERNAL_IDS, JsonKey.ID));
+              validateParamValue(
+                  s.get(JsonKey.PROVIDER),
+                  ResponseCode.mandatoryParamsMissing,
+                  StringFormatter.joinByDot(Constant.EXTERNAL_IDS, JsonKey.PROVIDER));
+              validateParamValue(
+                  s.get(Constant.ID_TYPE),
+                  ResponseCode.mandatoryParamsMissing,
+                  StringFormatter.joinByDot(Constant.EXTERNAL_IDS, Constant.ID_TYPE));
               // check for invalid operation type
               if (StringUtils.isNotBlank(s.get(JsonKey.OPERATION))
                   && (!operationTypeList.contains((s.get(JsonKey.OPERATION)).toLowerCase()))) {
@@ -50,10 +59,7 @@ public class UserExternalIdentityValidator extends UserBaseRequestValidator {
                     ResponseCode.invalidValue.getErrorCode(),
                     ProjectUtil.formatMessage(
                         ResponseCode.invalidValue.getErrorMessage(),
-                        ProjectUtil.formatMessage(
-                            ResponseMessage.Message.DOT_FORMAT,
-                            Constant.EXTERNAL_IDS,
-                            JsonKey.OPERATION),
+                        StringFormatter.joinByDot(Constant.EXTERNAL_IDS, JsonKey.OPERATION),
                         s.get(JsonKey.OPERATION),
                         String.join(",", operationTypeList)),
                     ERROR_CODE);
@@ -67,26 +73,11 @@ public class UserExternalIdentityValidator extends UserBaseRequestValidator {
                     ResponseCode.invalidValue.getErrorCode(),
                     ProjectUtil.formatMessage(
                         ResponseCode.invalidValue.getErrorMessage(),
-                        ProjectUtil.formatMessage(
-                            ResponseMessage.Message.DOT_FORMAT,
-                            Constant.EXTERNAL_IDS,
-                            JsonKey.OPERATION),
+                        StringFormatter.joinByDot(Constant.EXTERNAL_IDS, JsonKey.OPERATION),
                         s.get(JsonKey.OPERATION),
                         Constant.ADD),
                     ERROR_CODE);
               }
             });
-  }
-
-  private void validateExternalIdMandatoryParam(String param, String paramValue) {
-    if (StringUtils.isBlank(paramValue)) {
-      throw new ProjectCommonException(
-          ResponseCode.mandatoryParamsMissing.getErrorCode(),
-          ProjectUtil.formatMessage(
-              ResponseCode.mandatoryParamsMissing.getErrorMessage(),
-              ProjectUtil.formatMessage(
-                  ResponseMessage.Message.DOT_FORMAT, Constant.EXTERNAL_IDS, param)),
-          ERROR_CODE);
-    }
   }
 }
