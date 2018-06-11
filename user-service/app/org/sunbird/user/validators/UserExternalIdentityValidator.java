@@ -67,7 +67,10 @@ public class UserExternalIdentityValidator extends UserBaseRequestValidator {
                     ResponseCode.invalidValue.getErrorCode(),
                     ProjectUtil.formatMessage(
                         ResponseCode.invalidValue.getErrorMessage(),
-                        (Constant.EXTERNAL_IDS + "." + JsonKey.OPERATION),
+                        ProjectUtil.formatMessage(
+                            ResponseMessage.Message.DOT_FORMAT,
+                            Constant.EXTERNAL_IDS,
+                            JsonKey.OPERATION),
                         s.get(JsonKey.OPERATION),
                         Constant.ADD),
                     ERROR_CODE);
