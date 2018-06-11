@@ -53,10 +53,9 @@ public class UserJobProfileValidator extends UserBaseRequestValidator {
           ProjectUtil.formatMessage(
               ResponseMessage.Message.DOT_FORMAT, JsonKey.JOB_PROFILE, JsonKey.ORG_NAME),
           JsonKey.ORG_NAME);
-      if (jobProfile.containsKey(JsonKey.ADDRESS) && null != jobProfile.get(JsonKey.ADDRESS)) {
-        userAddressValidator.validateAddressField(
-            (Map<String, Object>) jobProfile.get(JsonKey.ADDRESS), JsonKey.JOB_PROFILE, operation);
-      }
+
+      userAddressValidator.validateAddressField(
+          (Map<String, Object>) jobProfile.get(JsonKey.ADDRESS), JsonKey.JOB_PROFILE, operation);
     }
   }
 

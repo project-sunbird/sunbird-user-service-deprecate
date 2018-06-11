@@ -29,6 +29,7 @@ public class Education {
   private String updatedDate;
   private String userId;
   private Integer yearOfPassing;
+  private Address address;
 
   public String getId() {
     return id;
@@ -157,5 +158,13 @@ public class Education {
 
   public void setYearOfPassing(Integer yearOfPassing) {
     this.yearOfPassing = yearOfPassing;
+  }
+
+  public Address getAddress() {
+    return address;
+  }
+
+  public void setAddress(Address address) {
+    this.address = address;
   }
 }

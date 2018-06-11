@@ -10,6 +10,7 @@ import org.sunbird.common.models.util.JsonKey;
 import org.sunbird.common.models.util.ProjectUtil;
 import org.sunbird.common.responsecode.ResponseCode;
 import org.sunbird.common.responsecode.ResponseMessage;
+import org.sunbird.user.models.entity.Address.AddressType;
 
 /**
  * Validates each address mentioned in user request.
@@ -77,23 +78,6 @@ public class UserAddressValidator extends UserBaseRequestValidator {
           }
         }
       }
-    }
-  }
-
-  /** This ENUM will hold all the Address type name. */
-  public enum AddressType {
-    PERMANENT("permanent"),
-    CURRENT("current"),
-    OFFICE("office"),
-    HOME("home");
-    private String typeName;
-
-    private AddressType(String name) {
-      this.typeName = name;
-    }
-
-    public String getTypeName() {
-      return typeName;
     }
   }
 }
