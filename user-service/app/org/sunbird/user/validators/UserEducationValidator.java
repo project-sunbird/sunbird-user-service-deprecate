@@ -9,20 +9,20 @@ import org.sunbird.common.models.util.ProjectUtil;
 import org.sunbird.common.responsecode.ResponseMessage;
 
 /**
- * This class provides helper methods to validate user education request.
+ * Validates education details of User.
  *
  * @author Amit Kumar
  */
-public class UserEducationValidator extends BaseValidator {
+public class UserEducationValidator extends UserBaseRequestValidator {
   private UserAddressValidator userAddressValidator = null;
 
   public UserEducationValidator() {
     userAddressValidator = new UserAddressValidator();
   }
   /**
-   * Method to validate educational details of the user
+   * Validates each education details in user request.
    *
-   * @param userRequest
+   * @param userRequest User details.
    */
   @SuppressWarnings("unchecked")
   public void validateEducation(Map<String, Object> userRequest, String operation) {
@@ -31,19 +31,19 @@ public class UserEducationValidator extends BaseValidator {
         (List<Map<String, Object>>) userRequest.get(JsonKey.EDUCATION);
     if (CollectionUtils.isNotEmpty(reqList))
       for (int i = 0; i < reqList.size(); i++) {
-        validateEducationEntity(reqList.get(i), operation);
+        validateEducationElement(reqList.get(i), operation);
       }
   }
 
   /**
-   * Method to validate individual education request
+   * Validates given education details.
    *
    * @param education Education details
-   * @param operation Operation type(create/update)
+   * @param operation Type of operation (e.g. CREATE, UPDATE)
    */
-  private void validateEducationEntity(Map<String, Object> education, String operation) {
+  private void validateEducationElement(Map<String, Object> education, String operation) {
     if (MapUtils.isNotEmpty(education)) {
-      validateDeletedEntity(education, operation, JsonKey.EDUCATION);
+      validateDeletion(education, operation, JsonKey.EDUCATION);
       checkMandatoryParamsPresent(
           education,
           ProjectUtil.formatMessage(
@@ -54,10 +54,9 @@ public class UserEducationValidator extends BaseValidator {
           ProjectUtil.formatMessage(
               ResponseMessage.Message.DOT_FORMAT, JsonKey.EDUCATION, JsonKey.DEGREE),
           JsonKey.DEGREE);
-      if (education.containsKey(JsonKey.ADDRESS) && null != education.get(JsonKey.ADDRESS)) {
-        userAddressValidator.validateAddressElement(
-            (Map<String, Object>) education.get(JsonKey.ADDRESS), JsonKey.EDUCATION, operation);
-      }
+
+      userAddressValidator.validateAddressField(
+          (Map<String, Object>) education.get(JsonKey.ADDRESS), JsonKey.EDUCATION, operation);
     }
   }
 }

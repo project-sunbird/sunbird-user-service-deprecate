@@ -8,18 +8,18 @@ import org.sunbird.common.models.util.PhoneValidator;
 import org.sunbird.common.responsecode.ResponseCode;
 
 /**
- * This class contains method to validate basic user fields like firstName,DOB,email,phone...
+ * Validates basic details (e.g. phone, date of birth) of User.
  *
  * @author Amit Kumar
  */
-public class BasicUserValidator extends BaseValidator {
+public class UserBasicDetailsValidator extends UserBaseRequestValidator {
 
   /**
-   * Validate phone number details in user request.
+   * Validates phone in user request.
    *
-   * @param User details
+   * @param userRequest User details
    */
-  public void validatePhone(Map<String, Object> userRequest) {
+  private void validatePhone(Map<String, Object> userRequest) {
     if (StringUtils.isNotBlank((String) userRequest.get(JsonKey.PHONE))) {
       PhoneValidator.validatePhoneNumber(
           (String) userRequest.get(JsonKey.PHONE), (String) userRequest.get(JsonKey.COUNTRY_CODE));
@@ -33,11 +33,11 @@ public class BasicUserValidator extends BaseValidator {
   }
 
   /**
-   * This method will do basic validation for user request object.
+   * Validates basic details of user.
    *
-   * @param userRequest
+   * @param userRequest User details
    */
-  public void userBasicValidation(Map<String, Object> userRequest, String operation) {
+  public void validateBasicDetails(Map<String, Object> userRequest, String operation) {
 
     if (operation.equalsIgnoreCase(JsonKey.CREATE)) {
       checkMandatoryFieldsPresent(userRequest, JsonKey.USERNAME, JsonKey.FIRST_NAME);
@@ -49,6 +49,7 @@ public class BasicUserValidator extends BaseValidator {
             ERROR_CODE);
       }
     }
+    validatePhone(userRequest);
     validateDateParam((String) userRequest.get(JsonKey.DOB));
     validateListParam(userRequest, JsonKey.ROLES, JsonKey.LANGUAGE);
   }

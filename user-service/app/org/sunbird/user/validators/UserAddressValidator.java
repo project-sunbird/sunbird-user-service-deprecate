@@ -12,52 +12,40 @@ import org.sunbird.common.responsecode.ResponseCode;
 import org.sunbird.common.responsecode.ResponseMessage;
 
 /**
- * This class provide helper method to validate user address request.
+ * Validates each address mentioned in user request.
  *
  * @author Amit Kumar
  */
-public class UserAddressValidator extends BaseValidator {
+public class UserAddressValidator extends UserBaseRequestValidator {
 
   /**
-   * Method to validate user Address
+   * Validates each address in user request.
    *
-   * @param userRequest
+   * @param userRequest User details.
    */
-  @SuppressWarnings("unchecked")
   public void validateAddress(Map<String, Object> userRequest, String operation) {
     validateListParam(userRequest, JsonKey.ADDRESS);
-    List<Map<String, Object>> reqList =
+    List<Map<String, Object>> addressList =
         (List<Map<String, Object>>) userRequest.get(JsonKey.ADDRESS);
-    if (CollectionUtils.isNotEmpty(reqList))
-      for (int i = 0; i < reqList.size(); i++) {
-        validateAddressElement(reqList.get(i), JsonKey.USER, operation);
+    if (CollectionUtils.isNotEmpty(addressList))
+      for (int i = 0; i < addressList.size(); i++) {
+        validateAddressField(addressList.get(i), JsonKey.USER, operation);
       }
   }
 
   /**
-   * Method to validate individual address request
+   * Validate given address.
    *
    * @param address Address details
-   * @param type For which entity address belongs to i.e for education , job_profile,etc
+   * @param type Entity type (e.g. user, education) containing given address
+   * @param operation Type of operation (e.g. CREATE, UPDATE)
    */
-  public void validateAddressElement(Map<String, Object> address, String type, String operation) {
+  public void validateAddressField(Map<String, Object> address, String type, String operation) {
     if (MapUtils.isNotEmpty(address)) {
-      // if isDeleted flag is true and addressId is missing throw exception
-      validateDeletedEntity(address, operation, JsonKey.ADDRESS);
+      validateDeletion(address, operation, JsonKey.ADDRESS);
       throwAddressException(address, JsonKey.ADDRESS_LINE1, type);
       throwAddressException(address, JsonKey.CITY, type);
-
-      if (address.containsKey(JsonKey.ADD_TYPE) && type.equals(JsonKey.USER)) {
-        throwAddressException(address, JsonKey.ADD_TYPE, type);
-
-        if (!StringUtils.isBlank((String) address.get(JsonKey.ADD_TYPE))
-            && !validateAddressType((String) address.get(JsonKey.ADD_TYPE))) {
-          throw new ProjectCommonException(
-              ResponseCode.addressTypeError.getErrorCode(),
-              ResponseCode.addressTypeError.getErrorMessage(),
-              ERROR_CODE);
-        }
-      }
+      validateAddressType(address, type);
     }
   }
 
@@ -70,13 +58,26 @@ public class UserAddressValidator extends BaseValidator {
     checkMandatoryParamsPresent(address, exceptionMsg, paramName);
   }
 
-  private boolean validateAddressType(String addrType) {
-    for (AddressType type : AddressType.values()) {
-      if (type.getTypeName().equals(addrType)) {
-        return true;
+  /**
+   * Validate address type.
+   *
+   * @param address Address details.
+   * @param entityType Entity type (e.g. user, education) containing given address
+   */
+  private void validateAddressType(Map<String, Object> address, String entityType) {
+    if (address.containsKey(JsonKey.ADD_TYPE) && entityType.equals(JsonKey.USER)) {
+      throwAddressException(address, JsonKey.ADD_TYPE, entityType);
+      if (!StringUtils.isBlank((String) address.get(JsonKey.ADD_TYPE))) {
+        for (AddressType addressType : AddressType.values()) {
+          if (!(addressType.getTypeName().equals(address.get(JsonKey.ADD_TYPE)))) {
+            throw new ProjectCommonException(
+                ResponseCode.addressTypeError.getErrorCode(),
+                ResponseCode.addressTypeError.getErrorMessage(),
+                ERROR_CODE);
+          }
+        }
       }
     }
-    return false;
   }
 
   /** This ENUM will hold all the Address type name. */

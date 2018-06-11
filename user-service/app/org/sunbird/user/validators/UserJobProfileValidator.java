@@ -13,7 +13,7 @@ import org.sunbird.common.responsecode.ResponseMessage;
  *
  * @author Amit Kumar
  */
-public class UserJobProfileValidator extends BaseValidator {
+public class UserJobProfileValidator extends UserBaseRequestValidator {
   private UserAddressValidator userAddressValidator = null;
 
   public UserJobProfileValidator() {
@@ -41,7 +41,7 @@ public class UserJobProfileValidator extends BaseValidator {
    */
   public void validateJobProfileEntity(Map<String, Object> jobProfile, String operation) {
     if (MapUtils.isNotEmpty(jobProfile)) {
-      validateDeletedEntity(jobProfile, operation, JsonKey.JOB_PROFILE);
+      validateDeletion(jobProfile, operation, JsonKey.JOB_PROFILE);
       validateJoiningAndJobEndDateFormat(jobProfile);
       checkMandatoryParamsPresent(
           jobProfile,
@@ -54,7 +54,7 @@ public class UserJobProfileValidator extends BaseValidator {
               ResponseMessage.Message.DOT_FORMAT, JsonKey.JOB_PROFILE, JsonKey.ORG_NAME),
           JsonKey.ORG_NAME);
       if (jobProfile.containsKey(JsonKey.ADDRESS) && null != jobProfile.get(JsonKey.ADDRESS)) {
-        userAddressValidator.validateAddressElement(
+        userAddressValidator.validateAddressField(
             (Map<String, Object>) jobProfile.get(JsonKey.ADDRESS), JsonKey.JOB_PROFILE, operation);
       }
     }

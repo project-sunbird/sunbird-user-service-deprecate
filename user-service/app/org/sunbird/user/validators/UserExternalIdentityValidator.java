@@ -12,25 +12,30 @@ import org.sunbird.common.responsecode.ResponseMessage;
 import org.sunbird.user.utils.Constant;
 
 /**
- * This class will provide helper methods to validate user external identity.
+ * Validates external identity details of User.
  *
  * @author Amit Kumar
  */
-public class UserExternalIdentityValidator extends BaseValidator {
+public class UserExternalIdentityValidator extends UserBaseRequestValidator {
 
   // valid operation type for externalIds in user api.
   private List<String> operationTypeList =
       Arrays.asList(Constant.ADD, Constant.REMOVE, Constant.EDIT);
 
-  public void externalIdsValidation(Map<String, Object> userRequest, String operation) {
+  /**
+   * Validates external IDs.
+   *
+   * @param userRequest User details.
+   * @param operation Type of operation (e.g. CREATE, UPDATE)
+   */
+  public void validateExternalIds(Map<String, Object> userRequest, String operation) {
     validateListParam(userRequest, Constant.EXTERNAL_IDS);
     List<Map<String, String>> externalIds =
         (List<Map<String, String>>) userRequest.get(Constant.EXTERNAL_IDS);
-    validateIndividualExternalId(operation, externalIds);
+    validateExternalIdElement(operation, externalIds);
   }
 
-  private void validateIndividualExternalId(
-      String operation, List<Map<String, String>> externalIds) {
+  private void validateExternalIdElement(String operation, List<Map<String, String>> externalIds) {
     externalIds
         .stream()
         .forEach(
@@ -45,7 +50,10 @@ public class UserExternalIdentityValidator extends BaseValidator {
                     ResponseCode.invalidValue.getErrorCode(),
                     ProjectUtil.formatMessage(
                         ResponseCode.invalidValue.getErrorMessage(),
-                        (Constant.EXTERNAL_IDS + "." + JsonKey.OPERATION),
+                        ProjectUtil.formatMessage(
+                            ResponseMessage.Message.DOT_FORMAT,
+                            Constant.EXTERNAL_IDS,
+                            JsonKey.OPERATION),
                         s.get(JsonKey.OPERATION),
                         String.join(",", operationTypeList)),
                     ERROR_CODE);
