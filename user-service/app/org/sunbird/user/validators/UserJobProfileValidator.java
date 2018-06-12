@@ -26,11 +26,11 @@ public class UserJobProfileValidator extends UserBaseRequestValidator {
    */
   public void validateJobProfile(Map<String, Object> userRequest, String operation) {
     validateListParam(userRequest, JsonKey.JOB_PROFILE);
-    List<Map<String, Object>> reqList =
+    List<Map<String, Object>> jobProfiles =
         (List<Map<String, Object>>) userRequest.get(JsonKey.JOB_PROFILE);
-    if (CollectionUtils.isNotEmpty(reqList))
-      for (int i = 0; i < reqList.size(); i++) {
-        validateJobProfileEntity(reqList.get(i), operation);
+    if (CollectionUtils.isNotEmpty(jobProfiles))
+      for (int i = 0; i < jobProfiles.size(); i++) {
+        validateJobProfileEntity(jobProfiles.get(i), operation);
       }
   }
 
