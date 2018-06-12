@@ -30,7 +30,7 @@ public class UserRequestValidator extends UserBaseRequestValidator {
   /**
    * Validates request of create User API
    *
-   * @param userRequest create user request details.
+   * @param userRequest Create user request details.
    */
   public void validateCreateUser(Map<String, Object> userRequest) {
     List<String> notAllowedFields = Arrays.asList(JsonKey.REGISTERED_ORG_ID, JsonKey.ROOT_ORG_ID);
@@ -41,7 +41,7 @@ public class UserRequestValidator extends UserBaseRequestValidator {
   /**
    * Validates request of update User API
    *
-   * @param userRequest update user request details.
+   * @param userRequest Update user request details.
    */
   public void validateUpdateUser(Map<String, Object> userRequest) {
     List<String> notAllowedFields =
