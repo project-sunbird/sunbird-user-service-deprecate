@@ -19,9 +19,10 @@ public class UserJobProfileValidator extends UserBaseRequestValidator {
     userAddressValidator = new UserAddressValidator();
   }
   /**
-   * Method to validate job profile of user
+   * Validates each job profile details.
    *
-   * @param userRequest
+   * @param userRequest User details.
+   * @param operation Type of operation (e.g. CREATE, UPDATE)
    */
   public void validateJobProfile(Map<String, Object> userRequest, String operation) {
     validateListParam(userRequest, JsonKey.JOB_PROFILE);
@@ -34,9 +35,10 @@ public class UserJobProfileValidator extends UserBaseRequestValidator {
   }
 
   /**
-   * Method to validate individual job profile request.
+   * Validates given job profile details.
    *
    * @param jobProfile Job profile details.
+   * @param operation Type of operation (e.g. CREATE, UPDATE)
    */
   public void validateJobProfileEntity(Map<String, Object> jobProfile, String operation) {
     if (MapUtils.isNotEmpty(jobProfile)) {
