@@ -39,6 +39,7 @@ public class UserCreateRequest {
   private List<Map<String, Object>> webPages;
   private String channel;
   private List<Map<String, String>> externalIds;
+  private List<Map<String, String>> address;
 
   public String getId() {
     return id;
@@ -70,14 +71,6 @@ public class UserCreateRequest {
 
   public void setCreatedBy(String createdBy) {
     this.createdBy = createdBy;
-  }
-
-  public String getCreatedDate() {
-    return createdDate;
-  }
-
-  public void setCreatedDate(String createdDate) {
-    this.createdDate = createdDate;
   }
 
   public String getDob() {
@@ -210,14 +203,6 @@ public class UserCreateRequest {
     this.updatedBy = updatedBy;
   }
 
-  public String getUpdatedDate() {
-    return updatedDate;
-  }
-
-  public void setUpdatedDate(String updatedDate) {
-    this.updatedDate = updatedDate;
-  }
-
   public String getUserName() {
     return userName;
   }
@@ -256,5 +241,13 @@ public class UserCreateRequest {
 
   public void setExternalIds(List<Map<String, String>> externalIds) {
     this.externalIds = externalIds;
+  }
+
+  public List<Map<String, String>> getAddress() {
+    return address;
+  }
+
+  public void setAddress(List<Map<String, String>> address) {
+    this.address = address;
   }
 }

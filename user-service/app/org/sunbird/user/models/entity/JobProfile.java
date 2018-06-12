@@ -30,6 +30,7 @@ public class JobProfile {
   private String userId;
   private String verifiedBy;
   private String verifiedDate;
+  private Address address;
 
   public String getId() {
     return id;
@@ -201,5 +202,13 @@ public class JobProfile {
 
   public void setVerifiedDate(String verifiedDate) {
     this.verifiedDate = verifiedDate;
+  }
+
+  public Address getAddress() {
+    return address;
+  }
+
+  public void setAddress(Address address) {
+    this.address = address;
   }
 }
