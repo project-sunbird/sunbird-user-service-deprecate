@@ -1,6 +1,7 @@
 package org.sunbird.user.services.dao;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import java.util.Map;
 import org.sunbird.cassandra.CassandraOperation;
 import org.sunbird.common.models.response.Response;
@@ -94,5 +95,21 @@ public interface BaseDao {
 
     return cassandraOperation.getRecordsByIndexedProperty(
         keyspace, tableName, indexedColumn, indexedValue);
+  }
+
+  /**
+   * @param keyspace Keyspace name.
+   * @param tableName Table name.
+   * @return containing entity information
+   */
+  static Response getAllRecords(String keyspace, String tableName) {
+
+    return cassandraOperation.getAllRecords(keyspace, tableName);
+  }
+
+  static Response getRecordsByProperty(
+      String keyspace, String tableName, String paramName, List<Object> paramValue) {
+
+    return cassandraOperation.getRecordsByProperty(keyspace, tableName, paramName, paramValue);
   }
 }
