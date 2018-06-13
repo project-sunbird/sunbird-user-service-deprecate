@@ -1,17 +1,14 @@
 package controllers;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import org.sunbird.common.models.util.ActorOperations;
 import org.sunbird.common.models.util.JsonKey;
 import org.sunbird.common.models.util.LoggerEnum;
 import org.sunbird.common.models.util.ProjectLogger;
 import org.sunbird.common.models.util.ProjectUtil;
-import org.sunbird.common.request.ExecutionContext;
 import org.sunbird.common.request.Request;
 import org.sunbird.controllers.BaseController;
 import play.libs.F;
 import play.libs.F.Promise;
-import play.libs.Json;
 import play.mvc.Result;
 
 /**
@@ -21,7 +18,7 @@ import play.mvc.Result;
  */
 public class UserController extends BaseController {
   /**
-   * Create user API..
+   * Create user API.
    *
    * @return Return a promise for create user API result.
    */
@@ -53,11 +50,8 @@ public class UserController extends BaseController {
   }
 
   private Request process(String actorOperation, String operation) {
-    JsonNode requestData = request().body().asJson();
     ProjectLogger.log("UserController : " + operation + " : start ", LoggerEnum.INFO.name());
-    Request reqObj = Json.fromJson(requestData, Request.class);
-    reqObj.setOperation(actorOperation);
-    reqObj.setRequestId(ExecutionContext.getRequestId());
+    Request reqObj = createAndInitRequest(actorOperation, request().body().asJson());
     ProjectUtil.updateMapSomeValueTOLowerCase(reqObj);
     reqObj.setRequest(reqObj.getRequest());
     return reqObj;
