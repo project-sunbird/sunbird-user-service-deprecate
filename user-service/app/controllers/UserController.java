@@ -1,10 +1,10 @@
 package controllers;
 
 import org.sunbird.common.models.util.ActorOperations;
+import org.sunbird.common.models.util.CustomMapUtils;
 import org.sunbird.common.models.util.JsonKey;
 import org.sunbird.common.models.util.LoggerEnum;
 import org.sunbird.common.models.util.ProjectLogger;
-import org.sunbird.common.models.util.ProjectUtil;
 import org.sunbird.common.request.Request;
 import org.sunbird.controllers.BaseController;
 import play.libs.F;
@@ -24,8 +24,11 @@ public class UserController extends BaseController {
    */
   public F.Promise<Result> create() {
     try {
-      Request reqObj = process(ActorOperations.CREATE_USER.getValue(), JsonKey.CREATE);
+      ProjectLogger.log("UserController : " + JsonKey.CREATE + " : start ", LoggerEnum.INFO.name());
+      Request reqObj =
+          createAndInitRequest(ActorOperations.CREATE_USER.getValue(), request().body().asJson());
       reqObj.getRequest().put(JsonKey.CREATED_BY, ctx().flash().get(JsonKey.USER_ID));
+      CustomMapUtils.convertValuesToLower(reqObj.getRequest());
       return actorResponseHandler(getActorRef(), reqObj, timeout, null, request());
     } catch (Exception e) {
       return Promise.<Result>pure(
@@ -40,20 +43,15 @@ public class UserController extends BaseController {
    */
   public F.Promise<Result> update() {
     try {
-      Request reqObj = process(ActorOperations.UPDATE_USER.getValue(), JsonKey.UPDATE);
+      ProjectLogger.log("UserController : " + JsonKey.UPDATE + " : start ", LoggerEnum.INFO.name());
+      Request reqObj =
+          createAndInitRequest(ActorOperations.UPDATE_USER.getValue(), request().body().asJson());
       reqObj.getRequest().put(JsonKey.UPDATED_BY, ctx().flash().get(JsonKey.USER_ID));
+      CustomMapUtils.convertValuesToLower(reqObj.getRequest());
       return actorResponseHandler(getActorRef(), reqObj, timeout, null, request());
     } catch (Exception e) {
       return Promise.<Result>pure(
           createCommonExceptionResult(request().path(), e, request().method()));
     }
-  }
-
-  private Request process(String actorOperation, String operation) {
-    ProjectLogger.log("UserController : " + operation + " : start ", LoggerEnum.INFO.name());
-    Request reqObj = createAndInitRequest(actorOperation, request().body().asJson());
-    ProjectUtil.updateMapSomeValueTOLowerCase(reqObj);
-    reqObj.setRequest(reqObj.getRequest());
-    return reqObj;
   }
 }
