@@ -235,7 +235,7 @@ public class UserUtil {
   public static String getLoginId(String userName, String channel) {
     String loginId = null;
     if (StringUtils.isNotBlank(channel)) {
-      loginId = StringFormatter.joinByAt(userName, channel);
+      loginId = (userName + "@" + channel);
     } else {
       loginId = userName;
     }

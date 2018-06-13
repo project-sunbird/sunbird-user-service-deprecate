@@ -4,7 +4,7 @@ import org.sunbird.actor.core.BaseActor;
 import org.sunbird.actor.router.ActorConfig;
 import org.sunbird.common.request.Request;
 import org.sunbird.extension.user.UserExtension;
-import org.sunbird.user.providers.UserProviderSunbirdImpl;
+import org.sunbird.user.extension.impl.UserProviderSunbirdImpl;
 import org.sunbird.user.utils.Constant;
 
 /**
@@ -30,5 +30,6 @@ public class CreateUserActor extends BaseActor {
   private void createUser(Request request) {
     UserExtension extension = new UserProviderSunbirdImpl();
     extension.preCreate(request.getRequest());
+    extension.create(request.getRequest());
   }
 }
