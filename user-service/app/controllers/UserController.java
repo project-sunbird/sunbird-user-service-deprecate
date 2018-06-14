@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.Arrays;
+import java.util.List;
 import org.sunbird.common.models.util.ActorOperations;
 import org.sunbird.common.models.util.CustomMapUtils;
 import org.sunbird.common.models.util.JsonKey;
@@ -17,6 +19,9 @@ import play.mvc.Result;
  * @author Amit Kumar
  */
 public class UserController extends BaseController {
+  List<String> keyList =
+      Arrays.asList(JsonKey.USERNAME, JsonKey.LOGIN_ID, JsonKey.SOURCE, JsonKey.PROVIDER);
+
   /**
    * Create user API.
    *
@@ -24,11 +29,11 @@ public class UserController extends BaseController {
    */
   public F.Promise<Result> create() {
     try {
-      ProjectLogger.log("UserController : " + JsonKey.CREATE + " : start ", LoggerEnum.INFO.name());
+      ProjectLogger.log("UserController: create called", LoggerEnum.DEBUG.name());
       Request reqObj =
           createAndInitRequest(ActorOperations.CREATE_USER.getValue(), request().body().asJson());
       reqObj.getRequest().put(JsonKey.CREATED_BY, ctx().flash().get(JsonKey.USER_ID));
-      CustomMapUtils.convertValuesToLower(reqObj.getRequest());
+      CustomMapUtils.convertValuesToLower(reqObj.getRequest(), keyList);
       return actorResponseHandler(getActorRef(), reqObj, timeout, null, request());
     } catch (Exception e) {
       return Promise.<Result>pure(
@@ -43,11 +48,11 @@ public class UserController extends BaseController {
    */
   public F.Promise<Result> update() {
     try {
-      ProjectLogger.log("UserController : " + JsonKey.UPDATE + " : start ", LoggerEnum.INFO.name());
+      ProjectLogger.log("UserController: update called", LoggerEnum.DEBUG.name());
       Request reqObj =
           createAndInitRequest(ActorOperations.UPDATE_USER.getValue(), request().body().asJson());
       reqObj.getRequest().put(JsonKey.UPDATED_BY, ctx().flash().get(JsonKey.USER_ID));
-      CustomMapUtils.convertValuesToLower(reqObj.getRequest());
+      CustomMapUtils.convertValuesToLower(reqObj.getRequest(), keyList);
       return actorResponseHandler(getActorRef(), reqObj, timeout, null, request());
     } catch (Exception e) {
       return Promise.<Result>pure(

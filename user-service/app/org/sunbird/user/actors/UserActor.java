@@ -38,8 +38,8 @@ public class UserActor extends BaseActor {
   private void updateUser(Request request) {}
 
   private void createUser(Request request) {
-    UserExtension extension = new UserProviderSunbirdImpl();
-    extension.preCreate(request.getRequest());
-    extension.create(request.getRequest());
+    UserExtension sunbirdExtension = new UserProviderSunbirdImpl();
+    sunbirdExtension.preCreate(request.getRequest());
+    sunbirdExtension.create(request.getRequest());
   }
 }

@@ -52,7 +52,7 @@ public class UserService {
    *
    * @param userLoginId User login id.
    */
-  public static void isUserExist(String userLoginId) {
+  public static void isUserExists(String userLoginId) {
     // loginId is encrypted in our application
     String encryptedLoginId = getEncryptedData(userLoginId);
     UserDao userDao = (UserDao) DaoFactory.getDao(Constant.USER);

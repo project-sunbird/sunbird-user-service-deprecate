@@ -31,7 +31,7 @@ public class UserProviderSunbirdImpl implements UserExtension {
       userMap.put(JsonKey.CHANNEL, UserService.getDefaultChannel());
     }
 
-    UserService.isUserExist(
+    UserService.isUserExists(
         UserService.getLoginId(
             (String) userMap.get(JsonKey.USERNAME), (String) userMap.get(JsonKey.CHANNEL)));
 
