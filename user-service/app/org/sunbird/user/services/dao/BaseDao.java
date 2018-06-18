@@ -98,12 +98,13 @@ public interface BaseDao {
   }
 
   /**
-   * Default implementation for retrieving entity details from database using a key.
+   * Default implementation for retrieving entity details from database for a key with a value in
+   * specified list.
    *
    * @param keyspace Keyspace name.
    * @param tableName Table name.
-   * @param key column name.
-   * @param keyValues column value.
+   * @param key Column name.
+   * @param keyValues Specified list of values.
    * @return Response containing entity information
    */
   static Response getRecordsByProperty(

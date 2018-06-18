@@ -12,6 +12,7 @@ import org.sunbird.common.responsecode.ResponseCode;
 import org.sunbird.common.responsecode.ResponseMessage;
 import org.sunbird.extension.user.UserExtension;
 import org.sunbird.user.services.UserService;
+import org.sunbird.user.services.impl.UserServiceImpl;
 import org.sunbird.user.utils.Constant;
 import org.sunbird.user.validators.UserRequestValidator;
 
@@ -23,21 +24,22 @@ import org.sunbird.user.validators.UserRequestValidator;
 public class UserProviderSunbirdImpl implements UserExtension {
 
   private UserRequestValidator userRequestValidator = new UserRequestValidator();
+  private UserService userService = UserServiceImpl.getInstance();
 
   @Override
   public void preCreate(Map<String, Object> userMap) {
     userRequestValidator.validateCreateUser(userMap);
     if (StringUtils.isBlank((String) userMap.get(JsonKey.CHANNEL))) {
-      userMap.put(JsonKey.CHANNEL, UserService.getDefaultChannel());
+      userMap.put(JsonKey.CHANNEL, userService.getDefaultChannel());
     }
 
-    UserService.isUserExists(
-        UserService.getLoginId(
+    userService.isUserExists(
+        userService.getLoginId(
             (String) userMap.get(JsonKey.USERNAME), (String) userMap.get(JsonKey.CHANNEL)));
 
     if (StringUtils.isNotBlank((String) userMap.get(JsonKey.PHONE))
         && CollectionUtils.isNotEmpty(
-            UserService.getUserDetailsByPhone((String) userMap.get(JsonKey.PHONE)))) {
+            userService.getUserDetailsByPhone((String) userMap.get(JsonKey.PHONE)))) {
       ProjectCommonException.throwClientErrorException(
           ResponseCode.userAlreadyExists,
           MessageFormat.format(
@@ -47,7 +49,7 @@ public class UserProviderSunbirdImpl implements UserExtension {
 
     if (StringUtils.isNotBlank((String) userMap.get(JsonKey.EMAIL))
         && CollectionUtils.isNotEmpty(
-            UserService.getUserDetailsByEmail((String) userMap.get(JsonKey.EMAIL)))) {
+            userService.getUserDetailsByEmail((String) userMap.get(JsonKey.EMAIL)))) {
       ProjectCommonException.throwClientErrorException(
           ResponseCode.userAlreadyExists,
           MessageFormat.format(
@@ -57,10 +59,13 @@ public class UserProviderSunbirdImpl implements UserExtension {
 
     List<Map<String, Object>> externalIds =
         (List<Map<String, Object>>) userMap.get(Constant.EXTERNAL_IDS);
-    if (CollectionUtils.isNotEmpty(
-        (List<Map<String, Object>>) userMap.get(Constant.EXTERNAL_IDS))) {
+    if (CollectionUtils.isNotEmpty(externalIds)) {
       for (Map<String, Object> externalId : externalIds) {
-        if (MapUtils.isNotEmpty(UserService.getExternalIdDetails(externalId))) {
+        if (MapUtils.isNotEmpty(
+            userService.getExternalIdDetails(
+                (String) externalId.get(JsonKey.PROVIDER),
+                (String) externalId.get(Constant.ID_TYPE),
+                (String) externalId.get(JsonKey.ID)))) {
           ProjectCommonException.throwClientErrorException(
               ResponseCode.userAlreadyExists,
               MessageFormat.format(
@@ -77,40 +82,7 @@ public class UserProviderSunbirdImpl implements UserExtension {
   public void create(Map<String, Object> userMap) {}
 
   @Override
-  public void preUpdate(Map<String, Object> userMap) {
-    userRequestValidator.validateUpdateUser(userMap);
-    List<Map<String, Object>> externalIds =
-        (List<Map<String, Object>>) userMap.get(Constant.EXTERNAL_IDS);
-    if (CollectionUtils.isNotEmpty(
-        (List<Map<String, Object>>) userMap.get(Constant.EXTERNAL_IDS))) {
-      for (Map<String, Object> externalId : externalIds) {
-        Map<String, Object> userExternalId = UserService.getExternalIdDetails(externalId);
-        if (MapUtils.isNotEmpty(userExternalId)) {
-          if (!(((String) userMap.get(JsonKey.USER_ID))
-              .equalsIgnoreCase((String) userExternalId.get(JsonKey.USER_ID)))) {
-            // If end user will try to add,edit or remove other user extIds throw exception
-            ProjectCommonException.throwClientErrorException(
-                ResponseCode.externalIdAssignedToOtherUser,
-                MessageFormat.format(
-                    ResponseCode.externalIdAssignedToOtherUser.getErrorMessage(),
-                    userExternalId.get(JsonKey.ID),
-                    userExternalId.get(Constant.ID_TYPE),
-                    userExternalId.get(JsonKey.PROVIDER)));
-          }
-        } else {
-          if (Constant.REMOVE.equalsIgnoreCase((String) externalId.get(JsonKey.OPERATION))) {
-            ProjectCommonException.throwClientErrorException(
-                ResponseCode.externalIdNotFound,
-                MessageFormat.format(
-                    ResponseCode.externalIdNotFound.getErrorMessage(),
-                    externalId.get(JsonKey.ID),
-                    externalId.get(Constant.ID_TYPE),
-                    externalId.get(JsonKey.PROVIDER)));
-          }
-        }
-      }
-    }
-  }
+  public void preUpdate(Map<String, Object> userMap) {}
 
   @Override
   public void update(Map<String, Object> userMap) {}
