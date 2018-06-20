@@ -126,4 +126,16 @@ public interface BaseDao {
 
     return cassandraOperation.getRecordsByCompositeKey(keyspace, tableName, compositeKeyMap);
   }
+
+  /**
+   * Default implementation for retrieving all entity details from database.
+   *
+   * @param keyspace Keyspace name.
+   * @param tableName Table name.
+   * @return Response containing entity information
+   */
+  static Response getAllRecords(String keyspace, String tableName) {
+
+    return cassandraOperation.getAllRecords(keyspace, tableName);
+  }
 }

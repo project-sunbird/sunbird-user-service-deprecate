@@ -1,7 +1,10 @@
 package org.sunbird.user.actors;
 
+import java.util.Map;
 import org.sunbird.actor.core.BaseActor;
 import org.sunbird.actor.router.ActorConfig;
+import org.sunbird.common.models.response.Response;
+import org.sunbird.common.models.util.JsonKey;
 import org.sunbird.common.request.Request;
 import org.sunbird.extension.user.UserExtension;
 import org.sunbird.user.extension.impl.UserProviderSunbirdImpl;
@@ -39,7 +42,16 @@ public class UserActor extends BaseActor {
 
   private void createUser(Request request) {
     UserExtension sunbirdExtension = new UserProviderSunbirdImpl();
-    sunbirdExtension.preCreate(request.getRequest());
-    sunbirdExtension.create(request.getRequest());
+    try {
+      sunbirdExtension.preCreate(request.getRequest());
+      Response response = sunbirdExtension.create(request.getRequest());
+      Map<String, Object> userMap = (Map<String, Object>) response.get(JsonKey.USER);
+      response.getResult().clear();
+      response.put(JsonKey.USER_ID, userMap.get(JsonKey.USER_ID));
+      sender().tell(response, self());
+      sunbirdExtension.postCreate(userMap);
+    } catch (Exception ex) {
+      sender().tell(ex, self());
+    }
   }
 }

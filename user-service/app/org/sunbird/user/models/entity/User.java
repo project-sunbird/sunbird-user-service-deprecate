@@ -46,7 +46,6 @@ public class User {
   private List<Map<String, Object>> webPages;
   private String channel;
   private String loginId;
-  private List<Address> address;
 
   public String getId() {
     return id;
@@ -297,13 +296,5 @@ public class User {
 
   public void setLoginId(String loginId) {
     this.loginId = loginId;
-  }
-
-  public List<Address> getAddress() {
-    return address;
-  }
-
-  public void setAddress(List<Address> address) {
-    this.address = address;
   }
 }

@@ -13,6 +13,17 @@ public class UserOrgDaoImpl implements UserOrgDao {
 
   public static final String TABLE_NAME = "user_org";
 
+  private UserOrgDaoImpl() {}
+
+  private static UserOrgDaoImpl userOrgDaoImpl = null;
+
+  public static synchronized UserOrgDaoImpl getInstance() {
+    if (null == userOrgDaoImpl) {
+      userOrgDaoImpl = new UserOrgDaoImpl();
+    }
+    return userOrgDaoImpl;
+  }
+
   @Override
   public void create(UserOrg userOrg) {
     create(KEY_SPACE, TABLE_NAME, mapper.convertValue(userOrg, Map.class));

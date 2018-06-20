@@ -12,6 +12,17 @@ public class EducationDaoImpl implements EducationDao {
 
   public static final String TABLE_NAME = "education";
 
+  private EducationDaoImpl() {}
+
+  private static EducationDaoImpl educationDaoImpl = null;
+
+  public static synchronized EducationDaoImpl getInstance() {
+    if (null == educationDaoImpl) {
+      educationDaoImpl = new EducationDaoImpl();
+    }
+    return educationDaoImpl;
+  }
+
   @Override
   public void create(Education education) {
     create(KEY_SPACE, TABLE_NAME, education);

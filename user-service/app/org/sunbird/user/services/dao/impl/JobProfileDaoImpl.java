@@ -12,6 +12,17 @@ public class JobProfileDaoImpl implements JobProfileDao {
 
   public static final String TABLE_NAME = "job_profile";
 
+  private JobProfileDaoImpl() {}
+
+  private static JobProfileDaoImpl jobProfileDaoImpl = null;
+
+  public static synchronized JobProfileDaoImpl getInstance() {
+    if (null == jobProfileDaoImpl) {
+      jobProfileDaoImpl = new JobProfileDaoImpl();
+    }
+    return jobProfileDaoImpl;
+  }
+
   @Override
   public void create(JobProfile jobProfile) {
     create(KEY_SPACE, TABLE_NAME, jobProfile);

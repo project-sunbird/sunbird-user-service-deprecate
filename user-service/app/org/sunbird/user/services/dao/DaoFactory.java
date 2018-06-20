@@ -26,19 +26,19 @@ public class DaoFactory {
 
     switch (type) {
       case USER:
-        return new UserDaoImpl();
+        return UserDaoImpl.getInstance();
 
       case EDUCATION:
-        return new EducationDaoImpl();
+        return EducationDaoImpl.getInstance();
 
       case JOB_PROFILE:
-        return new JobProfileDaoImpl();
+        return JobProfileDaoImpl.getInstance();
 
       case USER_EXTERNAL_IDENTITY:
-        return new UserExternalIdentityDaoImpl();
+        return UserExternalIdentityDaoImpl.getInstance();
 
       case USER_ORG:
-        return new UserOrgDaoImpl();
+        return UserOrgDaoImpl.getInstance();
 
       default:
         return null;
