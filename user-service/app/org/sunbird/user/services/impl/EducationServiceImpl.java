@@ -15,6 +15,11 @@ import org.sunbird.user.services.AddressService;
 import org.sunbird.user.services.EducationService;
 import org.sunbird.user.services.dao.impl.EducationDaoImpl;
 
+/**
+ * This class provides implementation of EducationService interface.
+ *
+ * @author Amit Kumar
+ */
 public class EducationServiceImpl implements EducationService {
 
   private ObjectMapper mapper = new ObjectMapper();

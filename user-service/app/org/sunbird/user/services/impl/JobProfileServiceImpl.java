@@ -14,6 +14,11 @@ import org.sunbird.user.services.AddressService;
 import org.sunbird.user.services.JobProfileService;
 import org.sunbird.user.services.dao.impl.JobProfileDaoImpl;
 
+/**
+ * This class provides implementation of JobProfileService interface.
+ *
+ * @author Amit Kumar
+ */
 public class JobProfileServiceImpl implements JobProfileService {
 
   private ObjectMapper mapper = new ObjectMapper();

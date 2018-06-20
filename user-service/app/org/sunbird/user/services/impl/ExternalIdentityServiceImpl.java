@@ -16,6 +16,11 @@ import org.sunbird.user.services.UserService;
 import org.sunbird.user.services.dao.impl.UserExternalIdentityDaoImpl;
 import org.sunbird.user.utils.Constant;
 
+/**
+ * This class provides implementation of ExternalIdentityService interface.
+ *
+ * @author Amit Kumar
+ */
 public class ExternalIdentityServiceImpl implements ExternalIdentityService {
 
   private UserService userService = UserServiceImpl.getInstance();

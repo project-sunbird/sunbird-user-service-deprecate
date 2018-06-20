@@ -12,6 +12,11 @@ import org.sunbird.learner.util.Util;
 import org.sunbird.user.services.OnBoardingEmailService;
 import org.sunbird.user.utils.Constant;
 
+/**
+ * This class provides implementation of OnBoardingEmailService interface.
+ *
+ * @author Amit Kumar
+ */
 public class OnBoardingEmailServiceImpl implements OnBoardingEmailService {
 
   private OnBoardingEmailServiceImpl() {}

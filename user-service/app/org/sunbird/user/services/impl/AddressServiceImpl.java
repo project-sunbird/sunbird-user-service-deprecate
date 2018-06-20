@@ -11,6 +11,11 @@ import org.sunbird.user.services.AddressService;
 import org.sunbird.user.services.UserService;
 import org.sunbird.user.services.dao.impl.AddressDaoImpl;
 
+/**
+ * This class provides implementation of AddressService interface.
+ *
+ * @author Amit Kumar
+ */
 public class AddressServiceImpl implements AddressService {
 
   private UserService userService = UserServiceImpl.getInstance();
