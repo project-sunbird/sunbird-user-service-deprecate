@@ -1,7 +1,7 @@
 package org.sunbird.user.utils;
 
 import java.lang.reflect.Method;
-import org.sunbird.global.BaseGlobal;
+import org.sunbird.global.ServiceBaseGlobal;
 import play.mvc.Http.Request;
 
 /**
@@ -9,7 +9,7 @@ import play.mvc.Http.Request;
  *
  * @author Amit Kumar
  */
-public class Global extends BaseGlobal {
+public class Global extends ServiceBaseGlobal {
 
   @SuppressWarnings("rawtypes")
   @Override
