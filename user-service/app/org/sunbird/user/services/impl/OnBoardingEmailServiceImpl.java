@@ -25,11 +25,6 @@ public class OnBoardingEmailServiceImpl implements OnBoardingEmailService {
     return onBoardingEmailService;
   }
 
-  /**
-   * This method is used for sending on-boarding mail
-   *
-   * @param emailTemplateMap
-   */
   @Override
   public void sendOnboardingMail(Map<String, Object> emailTemplateMap) {
     if (!(StringUtils.isBlank((String) emailTemplateMap.get(JsonKey.EMAIL)))) {

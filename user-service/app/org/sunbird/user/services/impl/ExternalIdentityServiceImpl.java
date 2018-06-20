@@ -32,11 +32,6 @@ public class ExternalIdentityServiceImpl implements ExternalIdentityService {
     return externalIdentityService;
   }
 
-  /**
-   * This method will save user external identity.
-   *
-   * @param userMap User details.
-   */
   @Override
   public void saveUserExternalIdentity(Map<String, Object> userMap) {
     try {

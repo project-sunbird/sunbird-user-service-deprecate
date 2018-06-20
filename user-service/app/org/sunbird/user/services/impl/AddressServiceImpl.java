@@ -27,11 +27,6 @@ public class AddressServiceImpl implements AddressService {
     return addressService;
   }
 
-  /**
-   * This method will save address of given user.
-   *
-   * @param userMap User details
-   */
   @Override
   public void saveUserAddress(Map<String, Object> userMap) {
     List<Map<String, Object>> addressList =
@@ -52,12 +47,6 @@ public class AddressServiceImpl implements AddressService {
     }
   }
 
-  /**
-   * This method use to save address inside DB.
-   *
-   * @param address Address details
-   * @return address id
-   */
   @Override
   public String saveAddress(Address address) {
     try {

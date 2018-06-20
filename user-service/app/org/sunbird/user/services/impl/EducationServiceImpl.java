@@ -33,11 +33,6 @@ public class EducationServiceImpl implements EducationService {
 
   @Override
   @SuppressWarnings("unchecked")
-  /**
-   * This method will save education details of given user.
-   *
-   * @param userMap User details
-   */
   public void saveEducationDetails(Map<String, Object> userMap) {
     List<Map<String, Object>> educationList =
         (List<Map<String, Object>>) userMap.get(JsonKey.EDUCATION);

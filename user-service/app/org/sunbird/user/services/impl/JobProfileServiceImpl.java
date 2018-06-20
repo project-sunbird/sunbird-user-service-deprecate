@@ -32,11 +32,6 @@ public class JobProfileServiceImpl implements JobProfileService {
 
   @Override
   @SuppressWarnings("unchecked")
-  /**
-   * This method will save user job profile details.
-   *
-   * @param userMap User details.
-   */
   public void saveJobProfileDetails(Map<String, Object> userMap) {
     List<Map<String, Object>> jobProfileList =
         (List<Map<String, Object>>) userMap.get(JsonKey.JOB_PROFILE);
