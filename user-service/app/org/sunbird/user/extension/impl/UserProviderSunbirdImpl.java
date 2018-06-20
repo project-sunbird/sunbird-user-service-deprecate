@@ -25,6 +25,9 @@ import org.sunbird.user.services.JobProfileService;
 import org.sunbird.user.services.OrgClient;
 import org.sunbird.user.services.UserService;
 import org.sunbird.user.services.dao.impl.UserDaoImpl;
+import org.sunbird.user.services.impl.AddressServiceImpl;
+import org.sunbird.user.services.impl.EducationServiceImpl;
+import org.sunbird.user.services.impl.JobProfileServiceImpl;
 import org.sunbird.user.services.impl.UserServiceImpl;
 import org.sunbird.user.utils.Constant;
 import org.sunbird.user.utils.SocialMediaWebUrlValidator;
@@ -39,6 +42,9 @@ public class UserProviderSunbirdImpl implements UserExtension {
 
   private UserRequestValidator userRequestValidator = new UserRequestValidator();
   private UserService userService = UserServiceImpl.getInstance();
+  private AddressService addressService = AddressServiceImpl.getInstance();
+  private EducationService educationService = EducationServiceImpl.getInstance();
+  private JobProfileService jobProfileService = JobProfileServiceImpl.getInstance();
   private SSOManager ssoManager = SSOServiceFactory.getInstance();
   private ObjectMapper mapper = new ObjectMapper();
 
@@ -119,13 +125,13 @@ public class UserProviderSunbirdImpl implements UserExtension {
       throw exception;
     }
     if (CollectionUtils.isNotEmpty((List<Map<String, Object>>) userMap.get(JsonKey.ADDRESS))) {
-      AddressService.saveUserAddress(userMap);
+      addressService.saveUserAddress(userMap);
     }
     if (CollectionUtils.isNotEmpty((List<Map<String, Object>>) userMap.get(JsonKey.EDUCATION))) {
-      EducationService.saveEducationDetails(userMap);
+      educationService.saveEducationDetails(userMap);
     }
     if (CollectionUtils.isNotEmpty((List<Map<String, Object>>) userMap.get(JsonKey.JOB_PROFILE))) {
-      JobProfileService.saveJobProfileDetails(userMap);
+      jobProfileService.saveJobProfileDetails(userMap);
     }
     Response response = new Response();
     response.put(JsonKey.USER, userMap);
