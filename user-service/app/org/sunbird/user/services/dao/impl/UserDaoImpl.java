@@ -12,6 +12,17 @@ public class UserDaoImpl implements UserDao {
 
   public static final String TABLE_NAME = "user";
 
+  private UserDaoImpl() {}
+
+  private static UserDaoImpl userDaoImpl = null;
+
+  public static synchronized UserDaoImpl getInstance() {
+    if (null == userDaoImpl) {
+      userDaoImpl = new UserDaoImpl();
+    }
+    return userDaoImpl;
+  }
+
   @Override
   public void create(User user) {
     create(KEY_SPACE, TABLE_NAME, user);

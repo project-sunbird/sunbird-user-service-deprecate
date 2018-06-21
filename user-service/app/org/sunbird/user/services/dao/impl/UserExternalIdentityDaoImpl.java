@@ -16,6 +16,17 @@ public class UserExternalIdentityDaoImpl implements UserExternalIdentityDao {
 
   public static final String TABLE_NAME = "user_external_identity";
 
+  private UserExternalIdentityDaoImpl() {}
+
+  private static UserExternalIdentityDaoImpl userExternalIdentityDaoImpl = null;
+
+  public static synchronized UserExternalIdentityDaoImpl getInstance() {
+    if (null == userExternalIdentityDaoImpl) {
+      userExternalIdentityDaoImpl = new UserExternalIdentityDaoImpl();
+    }
+    return userExternalIdentityDaoImpl;
+  }
+
   @Override
   public void create(UserExternalIdentity userExtId) {
     create(KEY_SPACE, TABLE_NAME, userExtId);

@@ -1,11 +1,14 @@
 package org.sunbird.user.actors;
 
-import com.typesafe.config.Config;
+import java.util.Map;
 import org.sunbird.actor.core.BaseActor;
 import org.sunbird.actor.router.ActorConfig;
+import org.sunbird.common.models.response.Response;
+import org.sunbird.common.models.util.JsonKey;
 import org.sunbird.common.request.Request;
+import org.sunbird.extension.user.UserExtension;
+import org.sunbird.user.extension.impl.UserProviderSunbirdImpl;
 import org.sunbird.user.utils.Constant;
-import org.sunbird.util.ConfigUtil;
 
 /**
  * UserActor handles User API requests.
@@ -17,8 +20,6 @@ import org.sunbird.util.ConfigUtil;
   asyncTasks = {}
 )
 public class UserActor extends BaseActor {
-
-  private static Config config = ConfigUtil.getConfig();
 
   @Override
   public void onReceive(Request request) throws Throwable {
@@ -39,5 +40,18 @@ public class UserActor extends BaseActor {
 
   private void updateUser(Request request) {}
 
-  private void createUser(Request request) {}
+  private void createUser(Request request) {
+    UserExtension sunbirdExtension = new UserProviderSunbirdImpl();
+    try {
+      sunbirdExtension.preCreate(request.getRequest());
+      Response response = sunbirdExtension.create(request.getRequest());
+      Map<String, Object> userMap = (Map<String, Object>) response.get(JsonKey.USER);
+      response.getResult().clear();
+      response.put(JsonKey.USER_ID, userMap.get(JsonKey.USER_ID));
+      sender().tell(response, self());
+      sunbirdExtension.postCreate(userMap);
+    } catch (Exception ex) {
+      sender().tell(ex, self());
+    }
+  }
 }

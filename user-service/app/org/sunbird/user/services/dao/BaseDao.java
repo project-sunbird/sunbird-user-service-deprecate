@@ -1,6 +1,7 @@
 package org.sunbird.user.services.dao;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import java.util.Map;
 import org.sunbird.cassandra.CassandraOperation;
 import org.sunbird.common.models.response.Response;
@@ -94,5 +95,47 @@ public interface BaseDao {
 
     return cassandraOperation.getRecordsByIndexedProperty(
         keyspace, tableName, indexedColumn, indexedValue);
+  }
+
+  /**
+   * Default implementation for retrieving entity details from database for a key with a value in
+   * specified list.
+   *
+   * @param keyspace Keyspace name.
+   * @param tableName Table name.
+   * @param key Column name.
+   * @param keyValues Specified list of values.
+   * @return Response containing entity information
+   */
+  static Response getRecordsByProperty(
+      String keyspace, String tableName, String key, List<String> keyValues) {
+
+    return cassandraOperation.getRecordsByProperty(keyspace, tableName, key, keyValues);
+  }
+
+  /**
+   * Default implementation for retrieving an entity from database using composite key.
+   *
+   * @param keyspace Keyspace name.
+   * @param tableName Table name.
+   * @param compositeKeyMap Composite key map.
+   * @return Response containing entity information
+   */
+  default Response getRecordsByCompositeKey(
+      String keyspace, String tableName, Map<String, Object> compositeKeyMap) {
+
+    return cassandraOperation.getRecordsByCompositeKey(keyspace, tableName, compositeKeyMap);
+  }
+
+  /**
+   * Default implementation for retrieving all entity details from database.
+   *
+   * @param keyspace Keyspace name.
+   * @param tableName Table name.
+   * @return Response containing entity information
+   */
+  static Response getAllRecords(String keyspace, String tableName) {
+
+    return cassandraOperation.getAllRecords(keyspace, tableName);
   }
 }
