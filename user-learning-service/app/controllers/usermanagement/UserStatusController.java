@@ -2,9 +2,7 @@ package controllers.usermanagement;
 
 import controllers.BaseController;
 import play.mvc.Result;
-import play.mvc.Results;
 
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 /**
@@ -12,29 +10,27 @@ import java.util.concurrent.CompletionStage;
  */
 
 
-
-    public class UserStatusController extends BaseController {
+public class UserStatusController extends BaseController {
 
 
     /**
      * This action method is used to block the user
+     *
      * @return CompletionStage of block user api result
      */
 
     public CompletionStage<Result> blockUser() {
-        CompletableFuture<String> cf = new CompletableFuture<>();
-        cf.complete(getDummyResponse());
-        return cf.thenApplyAsync(Results::ok);
+        return handelRequest();
     }
+
     /**
      * This action method is used to unblock the user
+     *
      * @return CompletionStage of unblock user api result
      */
 
-  public CompletionStage<Result> unblockUser() {
-      CompletableFuture<String> cf = new CompletableFuture<>();
-      cf.complete(getDummyResponse());
-      return cf.thenApplyAsync(Results::ok);
-  }
-  
+    public CompletionStage<Result> unblockUser() {
+        return handelRequest();
+    }
+
 }
