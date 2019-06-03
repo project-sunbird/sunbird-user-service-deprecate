@@ -10,7 +10,8 @@ import java.util.concurrent.CompletionStage;
 
 /**
  * This controller we can use for writing some common method to handel api request.
- *
+ *CompletableFuture: A Future that may be explicitly completed (setting its value and status), and may be used as a CompletionStage, supporting dependent functions and actions that trigger upon its completion.
+ * CompletionStage: A stage of a possibly asynchronous computation, that performs an action or computes a value when another CompletionStage completes
  * @author Anmol
  */
 public class BaseController extends Controller {

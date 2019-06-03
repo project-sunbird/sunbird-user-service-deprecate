@@ -5,6 +5,12 @@ import play.mvc.Result;
 
 import java.util.concurrent.CompletionStage;
 
+
+/**
+ * This controller is responsible to only  user related update task.
+ * CompletionStage: A stage of a possibly asynchronous computation, that performs an action or computes a value when another CompletionStage completes
+ * CompletableFuture: A Future that may be explicitly completed (setting its value and status), and may be used as a CompletionStage, supporting dependent functions and actions that trigger upon its completion.
+ */
 public class UserProfileUpdateController extends BaseController {
 
     /**
