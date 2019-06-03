@@ -1,5 +1,4 @@
 FROM openjdk:8-jdk-alpine
-MAINTAINER "Manojv" "manojv@ilimi.in"
 WORKDIR /opt
 RUN apk update \
     && mkdir -p /opt/learner \
