@@ -13,7 +13,7 @@ public class UserDataEncryptionController extends BaseController {
 
 
     /**
-     * This action method is used to encrypt the user data
+     * This method will encrypt user all PI/private data
      *
      * @return Return a CompletableFuture of success response
      */
@@ -22,7 +22,7 @@ public class UserDataEncryptionController extends BaseController {
     }
 
     /**
-     * This action method is used to decrypt the user data
+     * This method will decrypt user private data.
      *
      * @return Return a CompletableFuture of success response
      */
