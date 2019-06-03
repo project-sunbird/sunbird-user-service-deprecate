@@ -66,7 +66,6 @@
     48.sunbird_authorization={}
     49.telemetry_pdata_id={{env}}.sunbird.learning.service
     50.telemetry_pdata_pid=actor-service
-    51.telemetry_pdata_ver=1.5
     
 ## Do the below env setup , if you are planing to run background actor in remote mode.
 	1. sunbird_background_actor_host: host running for learner background actor
